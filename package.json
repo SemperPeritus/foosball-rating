@@ -21,10 +21,15 @@
   "dependencies": {
     "@nestjs/common": "^6.0.0",
     "@nestjs/core": "^6.0.0",
-    "@nestjs/platform-express": "^6.0.0", 
+    "@nestjs/platform-express": "^6.0.0",
+    "@nestjs/typeorm": "^6.1.3",
+    "class-transformer": "^0.2.3",
+    "class-validator": "^0.10.0",
+    "pg": "^7.12.1",
     "reflect-metadata": "^0.1.12",
     "rimraf": "^2.6.2",
-    "rxjs": "^6.3.3"
+    "rxjs": "^6.3.3",
+    "typeorm": "^0.2.19"
   },
   "devDependencies": {
     "@nestjs/testing": "^6.0.0",
@@ -32,8 +37,10 @@
     "@types/jest": "24.0.11",
     "@types/node": "11.13.4",
     "@types/supertest": "2.0.7",
+    "husky": "^3.0.5",
     "jest": "24.7.1",
     "prettier": "1.17.0",
+    "pretty-quick": "^1.11.1",
     "supertest": "4.0.2",
     "ts-jest": "24.0.2",
     "ts-node": "8.1.0",
@@ -43,14 +50,27 @@
     "typescript": "3.4.3"
   },
   "jest": {
-    "moduleFileExtensions": ["js", "json", "ts"],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
     "rootDir": ".",
-    "roots":["<rootDir>/src/", "<rootDir>/libs/", "<rootDir>/apps/"],
+    "roots": [
+      "<rootDir>/src/",
+      "<rootDir>/libs/",
+      "<rootDir>/apps/"
+    ],
     "testRegex": ".spec.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "coverageDirectory": "./coverage",
     "testEnvironment": "node"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }
