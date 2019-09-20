@@ -1,0 +1,11 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": "9219",
+  "username": "zero",
+  "password": "zero",
+  "database": "foosball-rating",
+  "synchronize": true,
+  "logging": true,
+  "entities": ["./dist/**/*.entity.js"]
+}

@@ -1,0 +1,3 @@
+export const ENTITIES = {
+  PLAYER_DEFAULT_RATING: 1400,
+};
