@@ -7,9 +7,10 @@ import { AppService } from './app.service';
 import { PlayerModule } from './modules/player/player.module';
 import { HttpErrorFilter } from './shared/processing/http-error.filter';
 import { LoggingInterceptor } from './shared/processing/logging.interceptor';
+import { GameModule } from './modules/game/game.module';
 
 @Module({
-  imports: [TypeOrmCoreModule.forRoot(), PlayerModule],
+  imports: [TypeOrmCoreModule.forRoot(), PlayerModule, GameModule],
   controllers: [AppController],
   providers: [
     AppService,

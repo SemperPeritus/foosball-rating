@@ -15,7 +15,7 @@ export class PlayerService {
   }
 
   async read(id: string) {
-    const player = await this.playerRepository.findOne({ where: { id } });
+    const player = await this.playerRepository.findOne(id);
 
     if (!player) {
       throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
@@ -29,6 +29,7 @@ export class PlayerService {
     player.rating = ENTITIES.PLAYER_DEFAULT_RATING;
 
     await this.playerRepository.save(player);
+
     return player;
   }
 }
