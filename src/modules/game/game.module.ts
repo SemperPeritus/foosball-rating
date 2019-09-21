@@ -9,5 +9,6 @@ import { GameEntity } from './game.entity';
   imports: [TypeOrmModule.forFeature([GameEntity])],
   controllers: [GameController],
   providers: [GameService],
+  exports: [GameService],
 })
 export class GameModule {}
