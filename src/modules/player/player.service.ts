@@ -1,6 +1,6 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
 
 import { PlayerEntity } from './player.entity';
 import { GameEntity } from '../game/game.entity';
@@ -15,19 +15,20 @@ export class PlayerService {
     @InjectRepository(GameEntity) private gameRepository: Repository<GameEntity>,
   ) {}
 
-  async showAll() {
-    return await this.playerRepository.find();
+  async showAll(options?: FindManyOptions<PlayerEntity>) {
+    return await this.playerRepository.find(options);
   }
 
   async getPlayersRating() {
     const players = await this.playerRepository.find();
-    const relations = ['player1OfTeam1', 'player2OfTeam1', 'player1OfTeam2', 'player2OfTeam2'];
+    const relations = ['players'];
     const games = await this.gameRepository.find({ relations });
+
     return getRatingForPlayers(players, games);
   }
 
-  async read(id: string) {
-    const player = await this.playerRepository.findOne(id);
+  async read(id: string, options?: FindOneOptions<PlayerEntity>) {
+    const player = await this.playerRepository.findOne(id, options);
 
     if (!player) {
       throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
@@ -38,6 +39,7 @@ export class PlayerService {
 
   async create(data: PlayerDto) {
     const player = await this.playerRepository.create(data);
+
     player.rating = Entities.PLAYER_DEFAULT_RATING;
 
     await this.playerRepository.save(player);
