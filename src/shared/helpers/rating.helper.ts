@@ -2,8 +2,8 @@ import { PlayerEntity } from '../../modules/player/player.entity';
 import { GameEntity, Team } from '../../modules/game/game.entity';
 
 const getTeamRatingDiff = (game: GameEntity) => {
-  const ratingOfTeam1 = game.player1OfTeam1.rating + game.player2OfTeam1.rating;
-  const ratingOfTeam2 = game.player1OfTeam2.rating + game.player2OfTeam2.rating;
+  const ratingOfTeam1 = game.players[0].rating + game.players[1].rating;
+  const ratingOfTeam2 = game.players[2].rating + game.players[3].rating;
   return Math.abs(ratingOfTeam1 - ratingOfTeam2);
 };
 
@@ -20,10 +20,10 @@ const getCurrentPlayer = (array: PlayerEntity[], player: PlayerEntity) =>
 const getPlayersAfterGame = (players: PlayerEntity[], game: GameEntity): PlayerEntity[] => {
   const ratingDiff = getTeamRatingDiff(game);
   return [
-    getPlayerWithNewRating(getCurrentPlayer(players, game.player1OfTeam1), ratingDiff, game.winner === Team.first),
-    getPlayerWithNewRating(getCurrentPlayer(players, game.player2OfTeam1), ratingDiff, game.winner === Team.first),
-    getPlayerWithNewRating(getCurrentPlayer(players, game.player1OfTeam2), ratingDiff, game.winner === Team.second),
-    getPlayerWithNewRating(getCurrentPlayer(players, game.player2OfTeam2), ratingDiff, game.winner === Team.second),
+    getPlayerWithNewRating(getCurrentPlayer(players, game.players[0]), ratingDiff, game.winner === Team.first),
+    getPlayerWithNewRating(getCurrentPlayer(players, game.players[1]), ratingDiff, game.winner === Team.first),
+    getPlayerWithNewRating(getCurrentPlayer(players, game.players[2]), ratingDiff, game.winner === Team.second),
+    getPlayerWithNewRating(getCurrentPlayer(players, game.players[3]), ratingDiff, game.winner === Team.second),
   ];
 };
 

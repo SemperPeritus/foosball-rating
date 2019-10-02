@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { PlayerEntity } from '../player/player.entity';
 
@@ -12,17 +12,9 @@ export class GameEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @ManyToOne(type => PlayerEntity)
-  player1OfTeam1: PlayerEntity;
-
-  @ManyToOne(type => PlayerEntity)
-  player2OfTeam1: PlayerEntity;
-
-  @ManyToOne(type => PlayerEntity)
-  player1OfTeam2: PlayerEntity;
-
-  @ManyToOne(type => PlayerEntity)
-  player2OfTeam2: PlayerEntity;
+  @ManyToMany(type => PlayerEntity, players => players.games)
+  @JoinTable()
+  players: PlayerEntity[];
 
   @Column({
     type: 'enum',
