@@ -19,14 +19,6 @@ export class PlayerService {
     return await this.playerRepository.find(options);
   }
 
-  async getPlayersRating() {
-    const players = await this.playerRepository.find();
-    const relations = ['players'];
-    const games = await this.gameRepository.find({ relations });
-
-    return getRatingForPlayers(players, games);
-  }
-
   async read(id: string, options?: FindOneOptions<PlayerEntity>) {
     const player = await this.playerRepository.findOne(id, options);
 
@@ -45,5 +37,23 @@ export class PlayerService {
     await this.playerRepository.save(player);
 
     return player;
+  }
+
+  async getPlayersRating() {
+    // Is updating JS object will be faster?
+    await this.playerRepository.update({}, { rating: Entities.PLAYER_DEFAULT_RATING });
+
+    const players = await this.playerRepository.find();
+    const relations = ['players'];
+    const games = await this.gameRepository.find({ relations });
+
+    const playersWithRating = getRatingForPlayers(players, games);
+
+    players.map(async player => {
+      const newPlayer = playersWithRating.find(playerWithRating => player.id === playerWithRating.id);
+      return newPlayer && (await this.playerRepository.update({ id: player.id }, { rating: newPlayer.rating }));
+    });
+
+    return { status: 'Update DONE!' };
   }
 }
