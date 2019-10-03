@@ -11,8 +11,9 @@ services:
       - POSTGRES_USER=zero
       - POSTGRES_PASSWORD=zero
       - POSTGRES_DB=foosball-rating
+      - PGDATA=/var/lib/postgresql/data/db-files/
     volumes:
-      - ./docker-volumes/postgresql:/var/lib/postgresql
+      - ./docker-volumes/postgresql:/var/lib/postgresql/data
     networks:
       - foosball-rating-net
 
