@@ -39,3 +39,4 @@ frontend/public/bundle.*
 
 # Developing-Deploying
 ormconfig.json
+/docker-volumes/
