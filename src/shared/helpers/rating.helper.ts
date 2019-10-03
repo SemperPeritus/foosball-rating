@@ -16,7 +16,8 @@ const getTeamRatingDiff = (players: PlayerEntity[], game: GameEntity) => {
 const getPlayerWithNewRating = (player: PlayerEntity, teamRatingDiff: number, isWinner: boolean): PlayerEntity => {
   return {
     ...player,
-    rating: player.rating + (isWinner ? teamRatingDiff + 10 : -teamRatingDiff - 10),
+    rating:
+      player.rating + (isWinner ? Math.min(teamRatingDiff + 10, 30) : Math.max(Math.min(teamRatingDiff - 10, -20))),
   };
 };
 
