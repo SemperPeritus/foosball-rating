@@ -36,3 +36,6 @@ lerna-debug.log*
 
 # Svelte
 frontend/public/bundle.*
+
+# Developing-Deploying
+ormconfig.json
