@@ -1,0 +1,38 @@
+version: '2'
+
+services:
+  PostgreSQL:
+    container_name: psql
+    image: postgres:10-alpine
+    ports:
+    #  - '5432:9219'
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=zero
+      - POSTGRES_PASSWORD=zero
+      - POSTGRES_DB=foosball-rating
+    volumes:
+      - ./docker-volumes/postgresql:/var/lib/postgresql
+    networks:
+      - foosball-rating-net
+
+  foosball-rating:
+    container_name: foosball-rating
+    build: .
+    restart: always
+    ports:
+      - '3000:3000'
+    # environment:
+    #   - PORT=zero
+    # volumes:
+    #   - ./docker-volumes/postgresql:/var/lib/postgresql
+    depends_on:
+      - 'PostgreSQL'
+    networks:
+      - foosball-rating-net
+    # external_links:
+    #   - foosball-rating-net
+
+networks:
+  foosball-rating-net:
+    external: true
