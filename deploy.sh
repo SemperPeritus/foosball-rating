@@ -2,5 +2,8 @@
 
 cat ormconfig.json.prod > ormconfig.json
 
-docker-compose down --rmi local
+docker-compose down
+
+docker-compose build foosball-rating
+
 docker-compose up -d
