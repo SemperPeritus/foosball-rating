@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cat ormconfig.json.prod > ormconfig.json
+cat ormconfig.prod.json > ormconfig.json
 
 docker-compose down
 
