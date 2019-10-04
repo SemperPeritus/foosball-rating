@@ -1,36 +1,40 @@
 import { PlayerEntity } from '../../modules/player/player.entity';
 import { GameEntity, Team } from '../../modules/game/game.entity';
 
+const getTeamRating = (players: PlayerEntity[], team: PlayerEntity[]) =>
+  team
+    .map(oldPlayer => players.find(newPlayer => newPlayer.id === oldPlayer.id).rating)
+    .reduce((sum, playerRating) => sum + playerRating, 0);
+
 const getTeamRatingDiff = (players: PlayerEntity[], game: GameEntity) => {
-  const player1OfTeam1 = players.find(player => player.id === game.players[0].id);
-  const player2OfTeam1 = players.find(player => player.id === game.players[1].id);
-  const player1OfTeam2 = players.find(player => player.id === game.players[2].id);
-  const player2OfTeam2 = players.find(player => player.id === game.players[3].id);
+  const firstTeamRating = getTeamRating(players, game.firstTeam);
+  const secondTeamRating = getTeamRating(players, game.secondTeam);
 
-  const ratingOfTeam1 = player1OfTeam1.rating + player2OfTeam1.rating;
-  const ratingOfTeam2 = player1OfTeam2.rating + player2OfTeam2.rating;
-
-  return Math.abs(ratingOfTeam1 - ratingOfTeam2);
+  return Math.abs(firstTeamRating - secondTeamRating);
 };
 
 const getPlayerWithNewRating = (player: PlayerEntity, teamRatingDiff: number, isWinner: boolean): PlayerEntity => {
   return {
     ...player,
     rating:
-      player.rating + (isWinner ? Math.min(teamRatingDiff + 10, 30) : Math.max(Math.min(teamRatingDiff - 10, -20))),
+      player.rating +
+      (isWinner ? Math.min(teamRatingDiff + 10, 30) : Math.max(Math.min(teamRatingDiff - 10, -20), -10)),
   };
 };
 
-const getCurrentPlayer = (array: PlayerEntity[], player: PlayerEntity) =>
-  array.find(element => element.id === player.id);
+const getCurrentPlayer = (currentPlayers: PlayerEntity[], oldPlayer: PlayerEntity) =>
+  currentPlayers.find(element => element.id === oldPlayer.id);
 
 const getPlayersAfterGame = (players: PlayerEntity[], game: GameEntity): PlayerEntity[] => {
   const ratingDiff = getTeamRatingDiff(players, game);
+
   return [
-    getPlayerWithNewRating(getCurrentPlayer(players, game.players[0]), ratingDiff, game.winner === Team.first),
-    getPlayerWithNewRating(getCurrentPlayer(players, game.players[1]), ratingDiff, game.winner === Team.first),
-    getPlayerWithNewRating(getCurrentPlayer(players, game.players[2]), ratingDiff, game.winner === Team.second),
-    getPlayerWithNewRating(getCurrentPlayer(players, game.players[3]), ratingDiff, game.winner === Team.second),
+    ...game.firstTeam.map(oldPlayer =>
+      getPlayerWithNewRating(getCurrentPlayer(players, oldPlayer), ratingDiff, game.winner === Team.first),
+    ),
+    ...game.secondTeam.map(oldPlayer =>
+      getPlayerWithNewRating(getCurrentPlayer(players, oldPlayer), ratingDiff, game.winner === Team.second),
+    ),
   ];
 };
 
