@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 test -f ormconfig.json || cat ormconfig.prod.json > ormconfig.json
-test -f .env || cat .env.prod > .env
+test -f frontend/.env || cat frontend/.env.prod > frontend/.env
 
 docker-compose down
 
