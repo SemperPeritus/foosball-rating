@@ -16,6 +16,14 @@ export class GameEntity {
   @JoinTable()
   players: PlayerEntity[];
 
+  @ManyToMany(type => PlayerEntity, players => players.firstTeam)
+  @JoinTable()
+  firstTeam: PlayerEntity[];
+
+  @ManyToMany(type => PlayerEntity, players => players.secondTeam)
+  @JoinTable()
+  secondTeam: PlayerEntity[];
+
   @Column({
     type: 'enum',
     enum: Team,

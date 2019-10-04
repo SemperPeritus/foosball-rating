@@ -16,6 +16,12 @@ export class PlayerEntity {
   @ManyToMany(type => GameEntity, game => game.players)
   games: GameEntity[];
 
+  @ManyToMany(type => GameEntity, game => game.firstTeam)
+  firstTeam: GameEntity[];
+
+  @ManyToMany(type => GameEntity, game => game.secondTeam)
+  secondTeam: GameEntity[];
+
   @CreateDateColumn()
   created: Date;
 }

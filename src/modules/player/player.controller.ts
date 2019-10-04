@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query, UsePipes } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query, UsePipes } from '@nestjs/common';
 
 import { PlayerService } from './player.service';
 import { PlayerDto } from './player.dto';
@@ -14,11 +14,6 @@ export class PlayerController {
     return this.playerService.showAll({ relations });
   }
 
-  @Get('rating')
-  showAllPlayersRating() {
-    return this.playerService.getPlayersRating();
-  }
-
   @Get(':id')
   readPlayer(@Param('id') id: string, @Query('include') include: string) {
     const relations = include && include.split(',');
@@ -29,5 +24,10 @@ export class PlayerController {
   @UsePipes(new ValidationPipe())
   createPlayer(@Body() data: PlayerDto) {
     return this.playerService.create(data);
+  }
+
+  @Patch('rating')
+  showAllPlayersRating() {
+    return this.playerService.getPlayersRating();
   }
 }
