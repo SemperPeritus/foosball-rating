@@ -2,6 +2,8 @@
 /dist
 /node_modules
 /frontend/node_modules
+frontend/__sapper__/
+/frontend/src/node_modules
 
 # Logs
 logs
@@ -38,5 +40,6 @@ lerna-debug.log*
 frontend/public/bundle.*
 
 # Developing-Deploying
+.env
 ormconfig.json
 /docker-volumes/
