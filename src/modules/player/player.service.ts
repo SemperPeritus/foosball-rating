@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
 
@@ -51,9 +51,9 @@ export class PlayerService {
 
     players.map(async player => {
       const newPlayer = playersWithRating.find(playerWithRating => player.id === playerWithRating.id);
-      return newPlayer && (await this.playerRepository.update({ id: player.id }, { rating: newPlayer.rating }));
+      return newPlayer && (await this.playerRepository.update(player.id, { rating: newPlayer.rating }));
     });
 
-    return { status: 'Update DONE!' };
+    return await this.playerRepository.find();
   }
 }
