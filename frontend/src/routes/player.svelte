@@ -16,7 +16,7 @@
 
   const updateRating = async () => {
     isLoading = true;
-    await api.get('player/rating');
+    await api.patch('player/rating');
     await fetchPlayers();
   };
 </script>

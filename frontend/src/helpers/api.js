@@ -37,6 +37,10 @@ function post(path, data, token) {
   return send({ method: 'POST', path, data, token });
 }
 
+function patch(path, data, token) {
+  return send({ method: 'PATCH', path, data, token });
+}
+
 function put(path, data, token) {
   return send({ method: 'PUT', path, data, token });
 }
@@ -45,5 +49,6 @@ export const api = {
   get,
   del,
   post,
+  patch,
   put,
 };

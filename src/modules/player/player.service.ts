@@ -40,20 +40,25 @@ export class PlayerService {
   }
 
   async getPlayersRating() {
-    // Is updating JS object will be faster?
-    await this.playerRepository.update({}, { rating: Entities.PLAYER_DEFAULT_RATING });
-
-    const players = await this.playerRepository.find();
-    const relations = ['players'];
-    const games = await this.gameRepository.find({ relations });
+    const players = (await this.playerRepository.find()).map(player => {
+      player.rating = 1400;
+      return player;
+    });
+    const relations = ['players', 'firstTeam', 'secondTeam'];
+    const games = await this.gameRepository.find({ relations, order: { created: 'ASC' } });
 
     const playersWithRating = getRatingForPlayers(players, games);
 
-    players.map(async player => {
-      const newPlayer = playersWithRating.find(playerWithRating => player.id === playerWithRating.id);
-      return newPlayer && (await this.playerRepository.update(player.id, { rating: newPlayer.rating }));
-    });
+    await Promise.all(
+      players.map(async player => {
+        const newPlayer = playersWithRating.find(playerWithRating => player.id === playerWithRating.id);
+        if (!newPlayer) {
+          return { deleted: true };
+        }
+        return newPlayer && (await this.playerRepository.update(player.id, { rating: newPlayer.rating }));
+      }),
+    );
 
-    return await this.playerRepository.find();
+    return await this.playerRepository.find({ order: { id: 'ASC' } });
   }
 }
