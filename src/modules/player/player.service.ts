@@ -16,7 +16,9 @@ export class PlayerService {
   ) {}
 
   async showAll(options?: FindManyOptions<PlayerEntity>) {
-    return await this.playerRepository.find(options);
+    // Don't remove type for this line. Needs to compile TS.
+    const defaultOptions: FindManyOptions<PlayerEntity> = { order: { id: 'ASC' } };
+    return await this.playerRepository.find({ ...defaultOptions, ...options });
   }
 
   async read(id: string, options?: FindOneOptions<PlayerEntity>) {
