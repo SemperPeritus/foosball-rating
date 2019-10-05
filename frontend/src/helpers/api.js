@@ -1,4 +1,4 @@
-const base = `http://159.69.217.124:3000`;
+import { config } from '../constants/config';
 
 function send({ method, path, data, token }) {
   const fetch = process.browser ? window.fetch : require('node-fetch').default;
@@ -14,7 +14,7 @@ function send({ method, path, data, token }) {
     opts.headers['Authorization'] = `Token ${token}`;
   }
 
-  return fetch(`${base}/${path}`, opts)
+  return fetch(`${config.API_URL}/${path}`, opts)
     .then(r => r.text())
     .then(json => {
       try {

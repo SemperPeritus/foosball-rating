@@ -1,6 +1,6 @@
 {
   "type": "postgres",
-  "host": "psql",
+  "host": "postgres-stage",
   "port": "5432",
   "username": "zero",
   "password": "zero",
