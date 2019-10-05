@@ -1,10 +1,11 @@
 FROM node:12-alpine
-WORKDIR /root/foosball-rating/frontend
 
-COPY . .
+WORKDIR /app
+
+COPY . /app
 
 RUN yarn install --pure-lockfile
-RUN ["yarn" , "run", "build"]
+RUN yarn run build
 
 EXPOSE 5000
 
