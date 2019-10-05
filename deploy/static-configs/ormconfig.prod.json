@@ -1,0 +1,11 @@
+{
+  "type": "postgres",
+  "host": "postgres-prod",
+  "port": "5432",
+  "username": "zero",
+  "password": "zero",
+  "database": "foosball-rating",
+  "synchronize": true,
+  "logging": true,
+  "entities": ["./dist/**/*.entity.js"]
+}

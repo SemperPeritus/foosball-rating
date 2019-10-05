@@ -1,41 +1,37 @@
-version: '2'
+version: '3'
 
 services:
   PostgreSQL:
-    container_name: psql
+    container_name: 'postgres-${CONTAINER_SUFFIX}'
     image: postgres:10-alpine
+    restart: always
     ports:
-      - '9219:5432'
-    environment:
-      - POSTGRES_USER=zero
-      - POSTGRES_PASSWORD=zero
-      - POSTGRES_DB=foosball-rating
-      - PGDATA=/var/lib/postgresql/data/db-files/
+      - '${POSTGRES_PORT}:5432'
+    env_file: deploy/env/PostgreSQL.env
     volumes:
       - ~/docker-volumes/postgresql:/var/lib/postgresql/data
     networks:
       - foosball-rating-net
 
   foosball-rating-backend:
-    container_name: foosball-rating-backend
+    container_name: 'foosball-rating-backend-${CONTAINER_SUFFIX}'
     build: .
     restart: always
     ports:
-      - '3000:3000'
+      - '${BACKEND_PORT}:3000'
+    env_file: deploy/env/backend.env
     depends_on:
       - 'PostgreSQL'
     networks:
       - foosball-rating-net
 
   foosball-rating-frontend:
-    container_name: foosball-rating-frontend
+    container_name: 'foosball-rating-frontend-${CONTAINER_SUFFIX}'
     build: frontend
     restart: always
     ports:
-      - '5000:5000'
-    environment:
-      - HOST=0.0.0.0
-      - PORT=5000
+      - '${FRONTEND_PORT}:5000'
+    env_file: deploy/env/frontend.env
     networks:
       - foosball-rating-net
 
