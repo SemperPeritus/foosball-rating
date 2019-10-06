@@ -52,6 +52,7 @@
 	<ul>
 		<li><a class='{segment === undefined ? "selected" : ""}' href='.'>Главная</a></li>
 		<li><a class='{segment === "player" ? "selected" : ""}' href='player'>Игроки</a></li>
+		<li><a class='{segment === "game" ? "selected" : ""}' href='game'>Игры</a></li>
 
 		<!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
 		     the blog data when we hover over the link or tap it on a touchscreen -->
