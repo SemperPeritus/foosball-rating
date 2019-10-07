@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
 
-  import { api } from '../helpers/api';
+  import { api } from '../../helpers/api';
 
   let games;
   let isLoading = true;
@@ -24,7 +24,8 @@
 
 <style>
   .winners {
-    color: red;
+    color: blue;
+    font-weight: bold;
   }
 </style>
 
@@ -34,13 +35,15 @@
 
 <h1>Список игр</h1>
 
-<button on:click={updateGames} disabled={isLoading}>Обновить рейтинг</button>
+
+<button on:click={updateGames} disabled={isLoading}>Обновить список</button>
+<a href="/game/create"><button>Создать игру</button></a>
 
 <div>
   {#if games && !isLoading}
     {#each games as { id, firstTeam, secondTeam, winner, created }}
       <p>
-        {id} |
+        <b>{id}</b> |
         <span class={winner === 1 ? 'winners' : ''}>{renderPlayers(firstTeam)}</span>
         vs
         <span class={winner === 2 ? 'winners' : ''}>{renderPlayers(secondTeam)}</span>

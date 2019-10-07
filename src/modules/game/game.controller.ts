@@ -3,6 +3,7 @@ import { Body, Controller, Get, Param, Post, Query, UsePipes } from '@nestjs/com
 import { GameService } from './game.service';
 import { GameDto } from './game.dto';
 import { ValidationPipe } from '../../shared/processing/validation.pipe';
+import { GameValidationPipe } from './game.validation';
 
 @Controller('game')
 export class GameController {
@@ -22,6 +23,7 @@ export class GameController {
 
   @Post()
   @UsePipes(new ValidationPipe())
+  @UsePipes(new GameValidationPipe())
   createGame(@Body() data: GameDto) {
     return this.gameService.create(data);
   }
