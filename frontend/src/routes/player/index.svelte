@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
 
-  import { api } from '../helpers/api';
+  import { api } from '../../helpers/api';
 
   let players;
   let isLoading = true;
@@ -31,8 +31,8 @@
 
 <div>
   {#if players && !isLoading}
-    {#each players as { name, rating }}
-      <p>{name} - {rating}</p>
+    {#each players as { id, name, rating }}
+      <p><a href={`/player/${id}`}>{name}</a> - {rating}</p>
     {/each}
   {:else}
     <h2>Loading...</h2>
