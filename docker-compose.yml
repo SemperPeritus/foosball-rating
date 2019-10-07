@@ -10,31 +10,22 @@ services:
     env_file: deploy/env/PostgreSQL.env
     volumes:
       - ~/docker-volumes/postgresql:/var/lib/postgresql/data
-    networks:
-      - foosball-rating-net
 
   foosball-rating-backend:
     container_name: 'foosball-rating-backend-${CONTAINER_SUFFIX}'
     build: .
     restart: always
-    ports:
-      - '${BACKEND_PORT}:3000'
     env_file: deploy/env/backend.env
     depends_on:
       - 'PostgreSQL'
-    networks:
-      - foosball-rating-net
 
   foosball-rating-frontend:
     container_name: 'foosball-rating-frontend-${CONTAINER_SUFFIX}'
     build: frontend
     restart: always
-    ports:
-      - '${FRONTEND_PORT}:5000'
     env_file: deploy/env/frontend.env
-    networks:
-      - foosball-rating-net
 
 networks:
-  foosball-rating-net:
-    external: true
+  default:
+    external:
+      name: nginx-proxy
