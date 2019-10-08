@@ -8,9 +8,10 @@ import { PlayerModule } from './modules/player/player.module';
 import { HttpErrorFilter } from './shared/processing/http-error.filter';
 import { LoggingInterceptor } from './shared/processing/logging.interceptor';
 import { GameModule } from './modules/game/game.module';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
-  imports: [TypeOrmCoreModule.forRoot(), PlayerModule, GameModule],
+  imports: [TypeOrmCoreModule.forRoot(), PlayerModule, GameModule, UserModule],
   controllers: [AppController],
   providers: [
     AppService,
