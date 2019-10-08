@@ -28,6 +28,7 @@
 <h1>Список игроков</h1>
 
 <button on:click={updateRating} disabled={isLoading}>Обновить рейтинг</button>
+<a href="/player/create"><button>Добавить игрока</button></a>
 
 <div>
   {#if players && !isLoading}
