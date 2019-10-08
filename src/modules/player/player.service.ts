@@ -61,6 +61,6 @@ export class PlayerService {
       }),
     );
 
-    return await this.playerRepository.find({ order: { id: 'ASC' } });
+    return await this.playerRepository.find({ order: { rating: 'DESC' } });
   }
 }

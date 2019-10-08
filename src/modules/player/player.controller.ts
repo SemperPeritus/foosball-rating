@@ -3,15 +3,17 @@ import { Body, Controller, Get, Param, Patch, Post, Query, UsePipes } from '@nes
 import { PlayerService } from './player.service';
 import { PlayerDto } from './player.dto';
 import { ValidationPipe } from '../../shared/processing/validation.pipe';
+import { parseSort } from '../../shared/helpers/parseSort';
 
 @Controller('player')
 export class PlayerController {
   constructor(private readonly playerService: PlayerService) {}
 
   @Get()
-  showAllPlayers(@Query('include') include: string) {
+  showAllPlayers(@Query('include') include: string, @Query('sort') sort: string) {
     const relations = include && include.split(',');
-    return this.playerService.showAll({ relations });
+    const order = parseSort(sort);
+    return this.playerService.showAll({ relations, order });
   }
 
   @Get(':id')
