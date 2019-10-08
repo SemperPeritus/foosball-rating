@@ -8,7 +8,7 @@
 
   const fetchPlayers = async () => {
     isLoading = true;
-    players = await api.get('player');
+    players = await api.get('player?sort=rating:DESC');
     isLoading = false;
   };
 
@@ -16,8 +16,8 @@
 
   const updateRating = async () => {
     isLoading = true;
-    await api.patch('player/rating');
-    await fetchPlayers();
+    players = await api.patch('player/rating');
+    isLoading = false;
   };
 </script>
 
