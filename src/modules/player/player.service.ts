@@ -6,7 +6,7 @@ import { PlayerEntity } from './player.entity';
 import { GameEntity } from '../game/game.entity';
 import { PlayerDto } from './player.dto';
 import { Entities } from '../../shared/constants/entities';
-import { getRatingForPlayers } from '../../shared/helpers/rating.helper';
+import { getRatingForPlayers } from '../../shared/helpers/ratingHelper';
 
 @Injectable()
 export class PlayerService {

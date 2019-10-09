@@ -4,6 +4,8 @@ import { PlayerService } from './player.service';
 import { PlayerDto } from './player.dto';
 import { ValidationPipe } from '../../shared/processing/validation.pipe';
 import { parseSort } from '../../shared/helpers/parseSort';
+import { RequireMinimalRole } from '../../shared/processing/roles.decorator';
+import { Role } from '../user/user.entity';
 
 @Controller('player')
 export class PlayerController {
@@ -23,7 +25,8 @@ export class PlayerController {
   }
 
   @Post()
-  @UsePipes(new ValidationPipe())
+  @RequireMinimalRole(Role.user)
+  @UsePipes(ValidationPipe)
   createPlayer(@Body() data: PlayerDto) {
     return this.playerService.create(data);
   }
