@@ -19,7 +19,7 @@
     await fetchGames();
   };
 
-  const renderPlayers = players => players.map(player => player.name).join(', ');
+  const renderPlayers = players => players.map(player => `${player.secondName} ${player.firstName}`).join(', ');
 </script>
 
 <style>
@@ -35,15 +35,17 @@
 
 <h1>Список игр</h1>
 
-
 <button on:click={updateGames} disabled={isLoading}>Обновить список</button>
-<a href="/game/create"><button>Создать игру</button></a>
+<a href="/game/create">
+  <button>Создать игру</button>
+</a>
 
 <div>
   {#if games && !isLoading}
     {#each games as { id, firstTeam, secondTeam, winner, created }}
       <p>
-        <b>{id}</b> |
+        <b>{id}</b>
+        |
         <span class={winner === 1 ? 'winners' : ''}>{renderPlayers(firstTeam)}</span>
         vs
         <span class={winner === 2 ? 'winners' : ''}>{renderPlayers(secondTeam)}</span>

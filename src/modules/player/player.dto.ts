@@ -1,4 +1,4 @@
-import { IsString, MaxLength, MinLength } from 'class-validator';
+import { IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class PlayerDto {
   @MinLength(1, {
@@ -8,5 +8,9 @@ export class PlayerDto {
     message: 'Too long name',
   })
   @IsString()
-  name: string;
+  firstName: string;
+
+  @IsOptional()
+  @IsString()
+  secondName: string;
 }

@@ -7,5 +7,9 @@
   "database": "foosball-rating",
   "synchronize": true,
   "logging": true,
-  "entities": ["./dist/**/*.entity.js"]
+  "entities": ["./dist/**/*.entity.js"],
+  "migrations": ["./dist/migrations/*.js"],
+  "cli": {
+    "migrationsDir": "./src/migrations"
+  }
 }
