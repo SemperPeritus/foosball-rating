@@ -4,6 +4,13 @@ import * as jwt from 'jsonwebtoken';
 
 import { PlayerEntity } from '../player/player.entity';
 
+export enum Role {
+  nonVerifiedUser = 80,
+  user = 100,
+  moderator = 300,
+  admin = 700,
+}
+
 @Entity('user')
 export class UserEntity {
   @PrimaryGeneratedColumn('increment')
@@ -19,6 +26,9 @@ export class UserEntity {
   @JoinColumn()
   player: PlayerEntity;
 
+  @Column({ type: 'enum', enum: Role, default: Role.nonVerifiedUser })
+  role: Role;
+
   @CreateDateColumn()
   created: Date;
 
@@ -28,8 +38,8 @@ export class UserEntity {
   }
 
   private get token() {
-    const { id, username } = this;
-    return jwt.sign({ id, username }, process.env.AUTH_SECRET, { expiresIn: '7d' });
+    const { id, username, role } = this;
+    return jwt.sign({ id, username, role }, process.env.AUTH_SECRET, { expiresIn: '7d' });
   }
 
   toResponseObject(isTokenNeeds: boolean = false) {
