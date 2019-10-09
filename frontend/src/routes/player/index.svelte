@@ -28,12 +28,17 @@
 <h1>Список игроков</h1>
 
 <button on:click={updateRating} disabled={isLoading}>Обновить рейтинг</button>
-<a href="/player/create"><button>Добавить игрока</button></a>
+<a href="/player/create">
+  <button>Добавить игрока</button>
+</a>
 
 <div>
   {#if players && !isLoading}
-    {#each players as { id, name, rating }}
-      <p><a href={`/player/${id}`}>{name}</a> - {rating}</p>
+    {#each players as { id, firstName, secondName, rating }}
+      <p>
+        <a href={`/player/${id}`}>{`${secondName} ${firstName}`}</a>
+        - {rating}
+      </p>
     {/each}
   {:else}
     <h2>Loading...</h2>

@@ -45,7 +45,7 @@
     }
   };
 
-  const renderPlayers = players => players.map(player => player.name).join(', ');
+  const renderPlayers = players => players.map(player => `${player.secondName} ${player.firstName}`).join(', ');
 </script>
 
 <style>
@@ -71,16 +71,16 @@
 
     <select id="player1OfTeam1">
       {#if players}
-        {#each players as { id, name }}
-          <option value={id}>{name}</option>
+        {#each players as { id, firstName, secondName }}
+          <option value={id}>{`${secondName} ${firstName}`}</option>
         {/each}
       {/if}
     </select>
 
     <select id="player2OfTeam1">
       {#if players}
-        {#each players as { id, name }}
-          <option value={id}>{name}</option>
+        {#each players as { id, firstName, secondName }}
+          <option value={id}>{`${secondName} ${firstName}`}</option>
         {/each}
       {/if}
     </select>
@@ -91,16 +91,16 @@
 
     <select id="player1OfTeam2">
       {#if players}
-        {#each players as { id, name }}
-          <option value={id}>{name}</option>
+        {#each players as { id, firstName, secondName }}
+          <option value={id}>{`${secondName} ${firstName}`}</option>
         {/each}
       {/if}
     </select>
 
     <select id="player2OfTeam2">
       {#if players}
-        {#each players as { id, name }}
-          <option value={id}>{name}</option>
+        {#each players as { id, firstName, secondName }}
+          <option value={id}>{`${secondName} ${firstName}`}</option>
         {/each}
       {/if}
     </select>

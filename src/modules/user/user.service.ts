@@ -44,14 +44,15 @@ export class UserService {
   }
 
   async register(data: UserRegisterDto) {
-    const { username, password, name } = data;
+    const { username, password, firstName, secondName } = data;
     const user = await this.userRepository.findOne({ username });
     if (user) {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
     }
 
     const player = new PlayerEntity();
-    player.name = name;
+    player.firstName = firstName;
+    player.secondName = secondName;
     player.rating = Entities.PLAYER_DEFAULT_RATING;
     await this.playerRepository.save(player);
 

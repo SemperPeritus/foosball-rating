@@ -1,4 +1,4 @@
-import { IsString, MaxLength, MinLength } from 'class-validator';
+import { IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 
 import { UserLoginDto } from './user-login.dto';
 
@@ -10,5 +10,9 @@ export class UserRegisterDto extends UserLoginDto {
     message: 'Too long name',
   })
   @IsString()
-  name: string;
+  firstName: string;
+
+  @IsOptional()
+  @IsString()
+  secondName: string;
 }

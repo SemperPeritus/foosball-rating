@@ -9,7 +9,10 @@ export class PlayerEntity {
   id: number;
 
   @Column('text')
-  name: string;
+  firstName: string;
+
+  @Column('text', { default: '' })
+  secondName: string;
 
   @Column('double precision')
   rating: number;

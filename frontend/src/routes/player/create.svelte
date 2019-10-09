@@ -9,9 +9,10 @@
   let errorMessage;
 
   const getFormData = () => {
-    const playerName = document.getElementById('player').value;
+    const firstName = document.getElementById('firstName').value;
+    const secondName = document.getElementById('secondName').value;
 
-    return { name: playerName };
+    return { firstName, secondName };
   };
 
   const createPlayer = async () => {
@@ -45,8 +46,12 @@
 
 <div>
   <div>
-    <label for="player">Имя:</label>
-    <input type="text" id="player" name="player" required maxlength="32" />
+    <label for="firstName">Имя:</label>
+    <input type="text" id="firstName" name="firstName" required maxlength="32" />
+  </div>
+  <div>
+    <label for="secondName">Имя:</label>
+    <input type="text" id="secondName" name="secondName" required maxlength="32" />
   </div>
 
   {#if isError}
@@ -57,7 +62,7 @@
 
   {#if !isError && !isLoading && player}
     <div>
-      <a href={`/player/${player.id}`}>{player.name}</a> - {player.rating}
+      <a href={`/player/${player.id}`}>{`${player.secondName} ${player.firstName}`}</a> - {player.rating}
     </div>
   {/if}
 </div>
