@@ -15,6 +15,7 @@ export class PlayerController {
   showAllPlayers(@Query('include') include: string, @Query('sort') sort: string) {
     const relations = include && include.split(',');
     const order = parseSort(sort);
+
     return this.playerService.showAll({ relations, order });
   }
 

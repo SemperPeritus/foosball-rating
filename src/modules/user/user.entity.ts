@@ -55,7 +55,7 @@ export class UserEntity {
     return jwt.sign({ id, username }, process.env.AUTH_SECRET, { expiresIn: '7d' });
   }
 
-  toResponseObject(isTokenNeeds: boolean = false) {
+  toResponseObject(isTokenNeeds: boolean = false): Partial<UserEntity> {
     const { id, username, player, role, created, token } = this;
     const response: any = { id, username, player, role, created };
     if (isTokenNeeds) {

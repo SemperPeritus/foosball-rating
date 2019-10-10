@@ -7,6 +7,7 @@ import { PlayerEntity } from '../player/player.entity';
 import { UserLoginDto } from './user-login.dto';
 import { UserRegisterDto } from './user-register.dto';
 import { Entities } from '../../shared/constants/entities';
+import { merge } from '../../shared/helpers/merge';
 
 @Injectable()
 export class UserService {
@@ -18,9 +19,10 @@ export class UserService {
   async showAll(options?: FindManyOptions<UserEntity>) {
     // Don't remove type for this line. Needs to compile TS.
     const defaultOptions: FindManyOptions<UserEntity> = { order: { id: 'ASC' } };
-    const users = await this.userRepository.find({ ...defaultOptions, ...options });
 
-    return users.map(user => user.toResponseObject(false));
+    const users = await this.userRepository.find(merge(defaultOptions, options));
+
+    return users.map(user => user.toResponseObject());
   }
 
   async read(id: string, options?: FindOneOptions<UserEntity>) {
@@ -30,7 +32,7 @@ export class UserService {
       throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
     }
 
-    return user.toResponseObject(false);
+    return user.toResponseObject();
   }
 
   async login(data: UserLoginDto) {
