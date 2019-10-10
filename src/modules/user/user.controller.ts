@@ -5,6 +5,8 @@ import { UserLoginDto } from './user-login.dto';
 import { UserRegisterDto } from './user-register.dto';
 import { ValidationPipe } from '../../shared/processing/validation.pipe';
 import { parseSort } from '../../shared/helpers/parseSort';
+import { Role, UserEntity } from './user.entity';
+import { User } from '../../shared/processing/user.decorator';
 
 @Controller('user')
 export class UserController {
@@ -16,6 +18,11 @@ export class UserController {
     const order = parseSort(sort);
 
     return this.userService.showAll({ relations, order });
+  }
+
+  @Get('profile')
+  getCurrent(@User() user: UserEntity) {
+    return user;
   }
 
   @Get(':id')
@@ -31,7 +38,7 @@ export class UserController {
     return this.userService.login(data);
   }
 
-  @Post('/register')
+  @Post('register')
   @UsePipes(ValidationPipe)
   register(@Body() data: UserRegisterDto) {
     return this.userService.register(data);

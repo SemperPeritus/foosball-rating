@@ -2,8 +2,13 @@
   import { onMount } from 'svelte';
 
   import { api } from '../helpers/api';
+  import { store } from '../helpers/store';
 
   let user;
+  const unsubscribe = store.user.subscribe(value => {
+    user = value;
+  });
+
   let isLoading = false;
   let isError = false;
   let errorMessage;
@@ -58,6 +63,7 @@
 
     if (user.token) {
       setCookie('token', user.token);
+      store.user.set(user);
     }
   };
 </script>

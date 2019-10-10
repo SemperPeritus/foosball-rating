@@ -43,13 +43,13 @@ export class UserEntity {
   }
 
   toResponseObject(isTokenNeeds: boolean = false) {
-    const { id, username, player, created, token } = this;
-    const response: any = { id, username, player, created };
+    const { id, username, player, role, created, token } = this;
+    const response: any = { id, username, player, role, created };
     if (isTokenNeeds) {
       response.token = token;
     }
 
-    return { id, username, player, created, token };
+    return response;
   }
 
   async comparePassword(password: string) {
