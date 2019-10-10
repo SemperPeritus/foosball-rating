@@ -15,13 +15,20 @@
     return { firstName, secondName };
   };
 
+  function getCookie(name) {
+    let matches = document.cookie.match(
+      new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)'),
+    );
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+  }
+
   const createPlayer = async () => {
     isLoading = true;
     isError = false;
     errorMessage = null;
 
     const data = getFormData();
-    player = await api.post('player', data);
+    player = await api.post('player', data, getCookie('token'));
 
     isLoading = false;
 
@@ -50,19 +57,22 @@
     <input type="text" id="firstName" name="firstName" required maxlength="32" />
   </div>
   <div>
-    <label for="secondName">Имя:</label>
+    <label for="secondName">Фамилия:</label>
     <input type="text" id="secondName" name="secondName" required maxlength="32" />
   </div>
 
   {#if isError}
-    <div class="error">{errorMessage}</div>
+    <div class="error">
+      {errorMessage && (errorMessage.message ? `${errorMessage.error}. ${errorMessage.message}.` : errorMessage)}
+    </div>
   {/if}
 
   <button on:click={createPlayer} disabled={isLoading}>Добавить</button>
 
   {#if !isError && !isLoading && player}
     <div>
-      <a href={`/player/${player.id}`}>{`${player.secondName} ${player.firstName}`}</a> - {player.rating}
+      <a href={`/player/${player.id}`}>{`${player.secondName} ${player.firstName}`}</a>
+      - {player.rating}
     </div>
   {/if}
 </div>
