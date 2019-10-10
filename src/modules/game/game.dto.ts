@@ -1,14 +1,13 @@
 import { IsEnum, IsNumber } from 'class-validator';
 
-import { PlayerEntity } from '../player/player.entity';
 import { Team } from './game.entity';
 
 export class GameDto {
   @IsNumber(null, { each: true })
-  firstTeam: PlayerEntity[];
+  firstTeam: number[];
 
   @IsNumber(null, { each: true })
-  secondTeam: PlayerEntity[];
+  secondTeam: number[];
 
   @IsEnum(Team)
   winner: Team;

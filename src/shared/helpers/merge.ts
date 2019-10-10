@@ -1,6 +1,6 @@
 const accumulateObject = (acc, obj) => {
   Object.keys(obj).forEach(key => {
-    if (typeof obj[key] !== 'undefined' || obj[key] !== null) {
+    if (obj[key]) {
       acc[key] = obj[key];
     }
   });

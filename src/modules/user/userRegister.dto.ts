@@ -1,8 +1,9 @@
-import { IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsNumber, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 
 import { UserLoginDto } from './userLogin.dto';
 
 export class UserRegisterDto extends UserLoginDto {
+  @IsOptional()
   @MinLength(1, {
     message: 'Please, enter name',
   })
@@ -15,4 +16,8 @@ export class UserRegisterDto extends UserLoginDto {
   @IsOptional()
   @IsString()
   secondName: string;
+
+  @IsOptional()
+  @IsNumber()
+  playerWanted: number;
 }

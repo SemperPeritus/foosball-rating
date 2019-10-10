@@ -18,14 +18,14 @@
 
   const getFormData = () => {
     const firstTeam = [
-      parseInt(document.getElementById('player1OfTeam1').value),
-      parseInt(document.getElementById('player2OfTeam1').value),
+      parseInt(document.getElementById('player1OfTeam1').value, 10),
+      parseInt(document.getElementById('player2OfTeam1').value, 10),
     ];
     const secondTeam = [
-      parseInt(document.getElementById('player1OfTeam2').value),
-      parseInt(document.getElementById('player2OfTeam2').value),
+      parseInt(document.getElementById('player1OfTeam2').value, 10),
+      parseInt(document.getElementById('player2OfTeam2').value, 10),
     ];
-    const winner = parseInt(document.getElementById('winner').value);
+    const winner = parseInt(document.getElementById('winner').value, 10);
 
     return { firstTeam, secondTeam, winner };
   };

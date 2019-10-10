@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
 
@@ -46,19 +46,27 @@ export class UserService {
   }
 
   async register(data: UserRegisterDto) {
-    const { username, password, firstName, secondName } = data;
+    const { username, password, firstName, secondName, playerWanted: playerWantedId } = data;
     const user = await this.userRepository.findOne({ username });
     if (user) {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
     }
 
-    const player = new PlayerEntity();
-    player.firstName = firstName;
-    player.secondName = secondName;
-    player.rating = Entities.PLAYER_DEFAULT_RATING;
-    await this.playerRepository.save(player);
+    let player = null;
+    let playerWanted = null;
+    if (playerWantedId) {
+      playerWanted = await this.playerRepository.findOne({ id: playerWantedId });
+    } else {
+      player = new PlayerEntity();
 
-    const newUser = await this.userRepository.create({ username, password });
+      player.firstName = firstName;
+      player.secondName = secondName;
+      player.rating = Entities.PLAYER_DEFAULT_RATING;
+
+      await this.playerRepository.save(player);
+    }
+
+    const newUser = await this.userRepository.create({ username, password, playerWanted });
     newUser.player = player;
 
     await this.userRepository.save(newUser);
