@@ -31,7 +31,7 @@
 
 <h1>{`${player.secondName} ${player.firstName}`}</h1>
 
-<div class="rating">Рейтинг: {player.rating}</div>
+<div class="rating">Рейтинг: {Math.round(player.rating)}</div>
 
 <h2>История игр ({player.games.length})</h2>
 

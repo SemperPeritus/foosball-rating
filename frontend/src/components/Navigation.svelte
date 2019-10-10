@@ -131,7 +131,7 @@
       <li>
         <div>
           <div>
-            <b>{user.username} ({user.player.rating})</b>
+            <b>{user.username} ({Math.round(user.player.rating)})</b>
             Права: {user.role}
           </div>
           <div>{user.player.secondName} {user.player.firstName}</div>
