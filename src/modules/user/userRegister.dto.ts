@@ -1,6 +1,6 @@
 import { IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 
-import { UserLoginDto } from './user-login.dto';
+import { UserLoginDto } from './userLogin.dto';
 
 export class UserRegisterDto extends UserLoginDto {
   @MinLength(1, {

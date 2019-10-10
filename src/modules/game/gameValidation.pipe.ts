@@ -4,6 +4,10 @@ import { checkUnique } from '../../shared/helpers/checkUnique';
 @Injectable()
 export class GameValidationPipe implements PipeTransform<any> {
   transform(value: any, metadata: ArgumentMetadata) {
+    if (metadata.type !== 'body') {
+      return value;
+    }
+
     const players = [...value.firstTeam, ...value.secondTeam];
     const isUnique = checkUnique(players);
 
