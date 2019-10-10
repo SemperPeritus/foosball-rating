@@ -5,6 +5,7 @@ import { FindManyOptions, In, Repository } from 'typeorm';
 import { GameEntity } from './game.entity';
 import { GameDto } from './game.dto';
 import { PlayerEntity } from '../player/player.entity';
+import { UserEntity } from '../user/user.entity';
 
 @Injectable()
 export class GameService {
@@ -29,7 +30,7 @@ export class GameService {
     return game;
   }
 
-  async create(data: GameDto) {
+  async create(data: GameDto, user: UserEntity) {
     const game = await this.gameRepository.create(data);
 
     const firstTeam = await this.playerRepository.find({ id: In(data.firstTeam) });
@@ -38,6 +39,7 @@ export class GameService {
     game.players = [...firstTeam, ...secondTeam];
     game.firstTeam = firstTeam;
     game.secondTeam = secondTeam;
+    game.createdBy = user;
 
     await this.gameRepository.save(game);
 

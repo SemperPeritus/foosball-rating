@@ -5,7 +5,8 @@ import { GameDto } from './game.dto';
 import { ValidationPipe } from '../../shared/processing/validation.pipe';
 import { GameValidationPipe } from './game.validation';
 import { RequireMinimalRole } from '../../shared/processing/roles.decorator';
-import { Role } from '../user/user.entity';
+import { Role, UserEntity } from '../user/user.entity';
+import { User } from '../../shared/processing/user.decorator';
 
 @Controller('game')
 export class GameController {
@@ -27,7 +28,7 @@ export class GameController {
   @RequireMinimalRole(Role.user)
   @UsePipes(ValidationPipe)
   @UsePipes(GameValidationPipe)
-  createGame(@Body() data: GameDto) {
-    return this.gameService.create(data);
+  createGame(@Body() data: GameDto, @User() user: UserEntity) {
+    return this.gameService.create(data, user);
   }
 }

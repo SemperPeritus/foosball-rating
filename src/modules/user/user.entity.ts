@@ -1,8 +1,18 @@
-import { BeforeInsert, Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 
 import { PlayerEntity } from '../player/player.entity';
+import { GameEntity } from '../game/game.entity';
 
 export enum Role {
   nonVerifiedUser = 80,
@@ -28,6 +38,9 @@ export class UserEntity {
 
   @Column({ type: 'enum', enum: Role, default: Role.nonVerifiedUser })
   role: Role;
+
+  @OneToMany(type => GameEntity, game => game.createdBy)
+  games: GameEntity[];
 
   @CreateDateColumn()
   created: Date;

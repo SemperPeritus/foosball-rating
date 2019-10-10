@@ -1,6 +1,7 @@
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import { PlayerEntity } from '../player/player.entity';
+import { UserEntity } from '../user/user.entity';
 
 export enum Team {
   first = 1,
@@ -32,4 +33,7 @@ export class GameEntity {
 
   @CreateDateColumn()
   created: Date;
+
+  @ManyToOne(type => UserEntity, user => user.games)
+  createdBy: UserEntity;
 }
