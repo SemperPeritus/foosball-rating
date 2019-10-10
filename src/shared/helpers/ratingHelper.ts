@@ -10,15 +10,27 @@ const getTeamRatingDiff = (players: PlayerEntity[], game: GameEntity) => {
   const firstTeamRating = getTeamRating(players, game.firstTeam);
   const secondTeamRating = getTeamRating(players, game.secondTeam);
 
-  return Math.abs(firstTeamRating - secondTeamRating);
+  return firstTeamRating - secondTeamRating;
 };
 
-const getPlayerWithNewRating = (player: PlayerEntity, teamRatingDiff: number, isWinner: boolean): PlayerEntity => {
+const getPlayerWithNewRating = (
+  player: PlayerEntity,
+  teamRatingDiff: number,
+  isWinner: boolean,
+  isFirstTeam: boolean,
+): PlayerEntity => {
+  let ratingDiff;
+  if (isWinner) {
+    const teamImpact = (isFirstTeam ? -teamRatingDiff : teamRatingDiff) / 30;
+    ratingDiff = Math.max(Math.min(teamImpact + 10, 30), 5);
+  } else {
+    const teamImpact = (isFirstTeam ? teamRatingDiff : -teamRatingDiff) / 30;
+    ratingDiff = Math.max(Math.min(teamImpact - 10, -5), -20);
+  }
+
   return {
     ...player,
-    rating:
-      player.rating +
-      (isWinner ? Math.min(teamRatingDiff + 10, 30) : Math.max(Math.min(teamRatingDiff - 10, -20), -10)),
+    rating: player.rating + ratingDiff,
   };
 };
 
@@ -30,10 +42,10 @@ const getPlayersAfterGame = (players: PlayerEntity[], game: GameEntity): PlayerE
 
   return [
     ...game.firstTeam.map(oldPlayer =>
-      getPlayerWithNewRating(getCurrentPlayer(players, oldPlayer), ratingDiff, game.winner === Team.first),
+      getPlayerWithNewRating(getCurrentPlayer(players, oldPlayer), ratingDiff, game.winner === Team.first, true),
     ),
     ...game.secondTeam.map(oldPlayer =>
-      getPlayerWithNewRating(getCurrentPlayer(players, oldPlayer), ratingDiff, game.winner === Team.second),
+      getPlayerWithNewRating(getCurrentPlayer(players, oldPlayer), ratingDiff, game.winner === Team.second, false),
     ),
   ];
 };

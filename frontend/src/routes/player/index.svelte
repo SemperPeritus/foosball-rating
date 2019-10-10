@@ -37,7 +37,7 @@
     {#each players as { id, firstName, secondName, rating }}
       <p>
         <a href={`/player/${id}`}>{`${secondName} ${firstName}`}</a>
-        - {rating}
+        - {Math.round(rating)}
       </p>
     {/each}
   {:else}

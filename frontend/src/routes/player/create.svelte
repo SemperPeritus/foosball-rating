@@ -72,7 +72,7 @@
   {#if !isError && !isLoading && player}
     <div>
       <a href={`/player/${player.id}`}>{`${player.secondName} ${player.firstName}`}</a>
-      - {player.rating}
+      - {Math.round(player.rating)}
     </div>
   {/if}
 </div>
