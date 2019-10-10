@@ -38,8 +38,8 @@ export class UserEntity {
   }
 
   private get token() {
-    const { id, username, role } = this;
-    return jwt.sign({ id, username, role }, process.env.AUTH_SECRET, { expiresIn: '7d' });
+    const { id, username } = this;
+    return jwt.sign({ id, username }, process.env.AUTH_SECRET, { expiresIn: '7d' });
   }
 
   toResponseObject(isTokenNeeds: boolean = false) {
