@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Param, Post, Query, UsePipes } from '@nestjs/common';
 
 import { UserService } from './user.service';
-import { UserLoginDto } from './user-login.dto';
-import { UserRegisterDto } from './user-register.dto';
+import { UserLoginDto } from './userLogin.dto';
+import { UserRegisterDto } from './userRegister.dto';
 import { ValidationPipe } from '../../shared/processing/validation.pipe';
 import { parseSort } from '../../shared/helpers/parseSort';
-import { Role, UserEntity } from './user.entity';
+import { UserEntity } from './user.entity';
 import { User } from '../../shared/processing/user.decorator';
 
 @Controller('user')

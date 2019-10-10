@@ -4,8 +4,8 @@ import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
 
 import { UserEntity } from './user.entity';
 import { PlayerEntity } from '../player/player.entity';
-import { UserLoginDto } from './user-login.dto';
-import { UserRegisterDto } from './user-register.dto';
+import { UserLoginDto } from './userLogin.dto';
+import { UserRegisterDto } from './userRegister.dto';
 import { Entities } from '../../shared/constants/entities';
 import { merge } from '../../shared/helpers/merge';
 

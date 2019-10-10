@@ -3,7 +3,7 @@ import { Body, Controller, Get, Param, Post, Query, UsePipes } from '@nestjs/com
 import { GameService } from './game.service';
 import { GameDto } from './game.dto';
 import { ValidationPipe } from '../../shared/processing/validation.pipe';
-import { GameValidationPipe } from './game.validation';
+import { GameValidationPipe } from './gameValidation.pipe';
 import { RequireMinimalRole } from '../../shared/processing/roles.decorator';
 import { Role, UserEntity } from '../user/user.entity';
 import { User } from '../../shared/processing/user.decorator';
