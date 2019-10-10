@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
 
   import { api } from '../../helpers/api';
+  import { getCookie } from '../../helpers/cookie';
 
   let player;
   let isLoading = false;
@@ -14,13 +15,6 @@
 
     return { firstName, secondName };
   };
-
-  function getCookie(name) {
-    let matches = document.cookie.match(
-      new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)'),
-    );
-    return matches ? decodeURIComponent(matches[1]) : undefined;
-  }
 
   const createPlayer = async () => {
     isLoading = true;

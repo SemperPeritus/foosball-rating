@@ -3,6 +3,7 @@
 
   import { api } from '../helpers/api';
   import { store } from '../helpers/store';
+  import { setCookie } from '../helpers/cookie';
 
   let user;
   const unsubscribe = store.user.subscribe(value => {
@@ -21,30 +22,6 @@
 
     return { username, password, firstName, secondName };
   };
-
-  function setCookie(name, value, options = {}) {
-    options = {
-      path: '/',
-      'max-age': 604800,
-      ...options,
-    };
-
-    if (options.expires && options.expires.toUTCString) {
-      options.expires = options.expires.toUTCString();
-    }
-
-    let updatedCookie = encodeURIComponent(name) + '=' + encodeURIComponent(value);
-
-    for (let optionKey in options) {
-      updatedCookie += '; ' + optionKey;
-      let optionValue = options[optionKey];
-      if (optionValue !== true) {
-        updatedCookie += '=' + optionValue;
-      }
-    }
-
-    document.cookie = updatedCookie;
-  }
 
   const login = async () => {
     isLoading = true;
