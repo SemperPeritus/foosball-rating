@@ -33,11 +33,11 @@ export class UserEntity {
   @Column('text')
   password: string;
 
-  @OneToOne(type => PlayerEntity, player => player.user, { nullable: true })
+  @OneToOne(type => PlayerEntity, player => player.user, { nullable: true, eager: true })
   @JoinColumn()
   player: PlayerEntity;
 
-  @ManyToOne(type => PlayerEntity, player => player.usersWants, { nullable: true })
+  @ManyToOne(type => PlayerEntity, player => player.usersWants, { nullable: true, eager: true })
   playerWanted: PlayerEntity;
 
   @Column({ type: 'enum', enum: Role, default: Role.nonVerifiedUser })

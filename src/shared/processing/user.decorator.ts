@@ -20,8 +20,7 @@ export const User = createParamDecorator(async (data, req) => {
   }
 
   const userRepository = getRepository(UserEntity);
-  const userRelations = ['player', 'playerWanted'];
-  const user = await userRepository.findOne(userId, { relations: userRelations });
+  const user = await userRepository.findOne(userId);
 
   return user.toResponseObject();
 });

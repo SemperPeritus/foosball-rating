@@ -1,6 +1,6 @@
-import { ArgumentMetadata, HttpException, HttpStatus, Injectable, Logger, PipeTransform } from '@nestjs/common';
+import { ArgumentMetadata, HttpException, HttpStatus, Injectable, PipeTransform } from '@nestjs/common';
 import { UserRegisterDto } from './userRegister.dto';
-import { createQueryBuilder } from 'typeorm';
+import { getRepository } from 'typeorm';
 import { PlayerEntity } from '../player/player.entity';
 
 @Injectable()
@@ -16,10 +16,8 @@ export class UserValidationPipe implements PipeTransform<any> {
       throw new HttpException(`Validation failed: You should either create or select player`, HttpStatus.BAD_REQUEST);
     }
 
-    const player = await createQueryBuilder(PlayerEntity, 'player')
-      .leftJoinAndSelect('player.user', 'user')
-      .where('player.id = :id', { id: user.playerWanted })
-      .getOne();
+    const playerRepository = getRepository(PlayerEntity);
+    const player = await playerRepository.findOne(user.playerWanted);
     if (!player) {
       throw new HttpException(`Validation failed: The player does not exists.`, HttpStatus.BAD_REQUEST);
     }
