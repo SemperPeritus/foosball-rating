@@ -6,11 +6,10 @@ const accumulateObject = (acc, obj) => {
   });
 };
 
-export const merge = (obj1, obj2) => {
+export const merge = (...objs: object[]) => {
   const acc = {};
 
-  accumulateObject(acc, obj1);
-  accumulateObject(acc, obj2);
+  objs.map(obj => accumulateObject(acc, obj));
 
   return acc;
 };
