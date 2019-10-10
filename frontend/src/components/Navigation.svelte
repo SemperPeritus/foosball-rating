@@ -95,10 +95,10 @@
       <li>
         <div>
           <div>
-            <b>{user.username} ({Math.round(user.player.rating)})</b>
+            <b>{user.username} ({Math.round(user.player ? user.player.rating : user.playerWanted.rating)}{user.player ? '' : '?'})</b>
             Права: {user.role}
           </div>
-          <div>{user.player.secondName} {user.player.firstName}</div>
+          <div>{user.player ? user.player.secondName : user.playerWanted.secondName} {user.player ? user.player.firstName : user.playerWanted.firstName}{user.player ? '' : '?'}</div>
         </div>
       </li>
     {/if}

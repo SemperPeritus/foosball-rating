@@ -7,6 +7,7 @@ import { ValidationPipe } from '../../shared/processing/validation.pipe';
 import { parseSort } from '../../shared/helpers/parseSort';
 import { UserEntity } from './user.entity';
 import { User } from '../../shared/processing/user.decorator';
+import { UserValidationPipe } from './userValidation.pipe';
 
 @Controller('user')
 export class UserController {
@@ -39,6 +40,7 @@ export class UserController {
   }
 
   @Post('register')
+  @UsePipes(UserValidationPipe)
   @UsePipes(ValidationPipe)
   register(@Body() data: UserRegisterDto) {
     return this.userService.register(data);

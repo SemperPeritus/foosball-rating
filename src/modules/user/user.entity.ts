@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -32,9 +33,12 @@ export class UserEntity {
   @Column('text')
   password: string;
 
-  @OneToOne(type => PlayerEntity, player => player.user, { nullable: false })
+  @OneToOne(type => PlayerEntity, player => player.user, { nullable: true })
   @JoinColumn()
   player: PlayerEntity;
+
+  @ManyToOne(type => PlayerEntity, player => player.usersWants, { nullable: true })
+  playerWanted: PlayerEntity;
 
   @Column({ type: 'enum', enum: Role, default: Role.nonVerifiedUser })
   role: Role;
@@ -56,8 +60,8 @@ export class UserEntity {
   }
 
   toResponseObject(isTokenNeeds: boolean = false): Partial<UserEntity> {
-    const { id, username, player, role, created, token } = this;
-    const response: any = { id, username, player, role, created };
+    const { id, username, player, playerWanted, role, created, token } = this;
+    const response: any = { id, username, player, playerWanted, role, created };
     if (isTokenNeeds) {
       response.token = token;
     }

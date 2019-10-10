@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import { GameEntity } from '../game/game.entity';
 import { UserEntity } from '../user/user.entity';
@@ -19,6 +19,9 @@ export class PlayerEntity {
 
   @OneToOne(type => UserEntity, user => user.player)
   user: UserEntity;
+
+  @OneToMany(type => UserEntity, user => user.playerWanted)
+  usersWants: UserEntity;
 
   @ManyToMany(type => GameEntity, game => game.players)
   games: GameEntity[];

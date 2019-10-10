@@ -33,7 +33,9 @@ export class GameService {
   }
 
   async create(data: GameDto, user: UserEntity) {
-    const game = await this.gameRepository.create(data);
+    const { winner } = data;
+    const preparedGameDto = { winner };
+    const game = await this.gameRepository.create(preparedGameDto);
 
     const firstTeam = await this.playerRepository.find({ id: In(data.firstTeam) });
     const secondTeam = await this.playerRepository.find({ id: In(data.secondTeam) });

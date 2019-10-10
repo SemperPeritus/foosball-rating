@@ -1,5 +1,5 @@
 import { createParamDecorator } from '@nestjs/common';
-import { createQueryBuilder } from 'typeorm';
+import { getRepository } from 'typeorm';
 import * as jwt from 'jsonwebtoken';
 
 import { UserEntity } from '../../modules/user/user.entity';
@@ -19,10 +19,9 @@ export const User = createParamDecorator(async (data, req) => {
     return null;
   }
 
-  const user = await createQueryBuilder(UserEntity, 'user')
-    .leftJoinAndSelect('user.player', 'player')
-    .where('user.id = :id', { id: userId })
-    .getOne();
+  const userRepository = getRepository(UserEntity);
+  const userRelations = ['player', 'playerWanted'];
+  const user = await userRepository.findOne(userId, { relations: userRelations });
 
   return user.toResponseObject();
 });
