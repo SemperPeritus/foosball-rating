@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
 
   import { api } from '../../helpers/api';
+  import { getCookie } from '../../helpers/cookie';
 
   let players;
   let game;
@@ -28,13 +29,6 @@
 
     return { firstTeam, secondTeam, winner };
   };
-
-  function getCookie(name) {
-    let matches = document.cookie.match(
-      new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)'),
-    );
-    return matches ? decodeURIComponent(matches[1]) : undefined;
-  }
 
   const createGame = async () => {
     isLoading = true;
