@@ -15,12 +15,14 @@ export class GameController {
   @Get()
   showAllGames(@Query('include') include: string) {
     const relations = include && include.split(',');
+
     return this.gameService.showAll({ relations });
   }
 
   @Get(':id')
   readGame(@Param('id') id: string, @Query('include') include: string) {
     const relations = include && include.split(',');
+
     return this.gameService.read(id, { relations });
   }
 

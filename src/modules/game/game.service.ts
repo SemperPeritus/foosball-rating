@@ -6,6 +6,7 @@ import { GameEntity } from './game.entity';
 import { GameDto } from './game.dto';
 import { PlayerEntity } from '../player/player.entity';
 import { UserEntity } from '../user/user.entity';
+import { merge } from '../../shared/helpers/merge';
 
 @Injectable()
 export class GameService {
@@ -17,7 +18,8 @@ export class GameService {
   async showAll(options?: FindManyOptions<GameEntity>) {
     // Don't remove type for this line. Needs to compile TS.
     const defaultOptions: FindManyOptions<GameEntity> = { order: { created: 'ASC' } };
-    return await this.gameRepository.find({ ...defaultOptions, ...options });
+
+    return await this.gameRepository.find(merge(defaultOptions, options));
   }
 
   async read(id: string, options?: FindManyOptions<GameEntity>) {
