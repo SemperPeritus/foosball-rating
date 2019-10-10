@@ -11,7 +11,7 @@ function send({ method, path, data, token }) {
   }
 
   if (token) {
-    opts.headers['Authorization'] = `Token ${token}`;
+    opts.headers['token'] = token;
   }
 
   return fetch(`${config.API_URL}/${path}`, opts)

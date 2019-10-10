@@ -53,5 +53,7 @@
 		<li><a class='{segment === undefined ? "selected" : ""}' href='.'>Главная</a></li>
 		<li><a class='{segment === "player" ? "selected" : ""}' href='player'>Игроки</a></li>
 		<li><a class='{segment === "game" ? "selected" : ""}' href='game'>Игры</a></li>
+		<li><a class='{segment === "register" ? "selected" : ""}' href='register'>Регистрация</a></li>
+		<li><a class='{segment === "login" ? "selected" : ""}' href='login'>Вход</a></li>
 	</ul>
 </nav>

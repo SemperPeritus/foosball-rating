@@ -29,13 +29,20 @@
     return { firstTeam, secondTeam, winner };
   };
 
+  function getCookie(name) {
+    let matches = document.cookie.match(
+      new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)'),
+    );
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+  }
+
   const createGame = async () => {
     isLoading = true;
     isError = false;
     errorMessage = null;
 
     const data = getFormData();
-    game = await api.post('game', data);
+    game = await api.post('game', data, getCookie('token'));
 
     isLoading = false;
 
@@ -116,7 +123,9 @@
   </div>
 
   {#if isError}
-    <div class="error">{errorMessage}</div>
+    <div class="error">
+      {errorMessage && (errorMessage.message ? `${errorMessage.error}. ${errorMessage.message}.` : errorMessage)}
+    </div>
   {/if}
 
   <button on:click={createGame} disabled={isLoading}>Создать игру</button>
