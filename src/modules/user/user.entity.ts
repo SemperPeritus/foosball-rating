@@ -46,6 +46,9 @@ export class UserEntity {
   @OneToMany(type => GameEntity, game => game.createdBy)
   games: GameEntity[];
 
+  @OneToMany(type => PlayerEntity, player => player.createdBy)
+  createdPlayers: PlayerEntity[];
+
   @CreateDateColumn()
   created: Date;
 
