@@ -2,6 +2,12 @@
   import { onMount } from 'svelte';
 
   import { api } from '../../helpers/api';
+  import { store } from '../../helpers/store';
+
+  let user;
+  const unsubscribe = store.user.subscribe(value => {
+    user = value;
+  });
 
   let games;
   let isLoading = true;
@@ -27,6 +33,10 @@
     color: blue;
     font-weight: bold;
   }
+
+  .current-player {
+    background-color: coral;
+  }
 </style>
 
 <svelte:head>
@@ -46,9 +56,23 @@
       <p>
         <b>{id}</b>
         |
-        <span class={winner === 1 ? 'winners' : ''}>{renderPlayers(firstTeam)}</span>
+        <span class={winner === 1 ? 'winners' : ''}>
+          {#each firstTeam as { id, firstName, secondName }, index}
+            <span class={user && user.player && user.player.id === id ? 'current-player' : ''}>
+              {secondName} {firstName}
+            </span>
+            {index === firstTeam.length - 1 ? '' : ', '}
+          {/each}
+        </span>
         vs
-        <span class={winner === 2 ? 'winners' : ''}>{renderPlayers(secondTeam)}</span>
+        <span class={winner === 2 ? 'winners' : ''}>
+          {#each secondTeam as { id, firstName, secondName }, index}
+            <span class={user && user.player && user.player.id === id ? 'current-player' : ''}>
+              {secondName} {firstName}
+            </span>
+            {index === secondTeam.length - 1 ? '' : ', '}
+          {/each}
+        </span>
         | Дата: {new Date(created).toLocaleDateString('ru-RU')}
       </p>
     {/each}

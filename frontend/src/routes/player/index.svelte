@@ -2,6 +2,12 @@
   import { onMount } from 'svelte';
 
   import { api } from '../../helpers/api';
+  import { store } from '../../helpers/store';
+
+  let user;
+  const unsubscribe = store.user.subscribe(value => {
+    user = value;
+  });
 
   let players;
   let isLoading = true;
@@ -21,6 +27,12 @@
   };
 </script>
 
+<style>
+  .current-player {
+    background-color: coral;
+  }
+</style>
+
 <svelte:head>
   <title>Список игроков</title>
 </svelte:head>
@@ -35,10 +47,14 @@
 <div>
   {#if players && !isLoading}
     {#each players as { id, firstName, secondName, rating }}
-      <p>
-        <a href={`/player/${id}`}>{`${secondName} ${firstName}`}</a>
+      <div>
+        <a href={`/player/${id}`}>
+          <span class={user && user.player && id === user.player.id ? 'current-player' : ''}>
+            {`${secondName} ${firstName}`}
+          </span>
+        </a>
         - {Math.round(rating)}
-      </p>
+      </div>
     {/each}
   {:else}
     <h2>Loading...</h2>
