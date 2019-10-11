@@ -1,6 +1,8 @@
 <script>
   import { onMount } from 'svelte';
 
+  import PlayerLink from '../../components/PlayerLink.svelte';
+
   import { api } from '../../helpers/api';
   import { store } from '../../helpers/store';
 
@@ -28,8 +30,8 @@
 </script>
 
 <style>
-  .current-player {
-    background-color: coral;
+  .player-list {
+    margin-top: 20px;
   }
 </style>
 
@@ -44,17 +46,10 @@
   <button>Добавить игрока</button>
 </a>
 
-<div>
+<div class="player-list">
   {#if players && !isLoading}
-    {#each players as { id, firstName, secondName, rating }}
-      <div>
-        <a href={`/player/${id}`}>
-          <span class={user && user.player && id === user.player.id ? 'current-player' : ''}>
-            {`${secondName} ${firstName}`}
-          </span>
-        </a>
-        - {Math.round(rating)}
-      </div>
+    {#each players as player}
+      <PlayerLink {player} highlightedPlayerId={user && user.player && user.player.id} />
     {/each}
   {:else}
     <h2>Loading...</h2>
