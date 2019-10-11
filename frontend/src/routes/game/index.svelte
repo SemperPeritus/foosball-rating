@@ -1,6 +1,8 @@
 <script>
   import { onMount } from 'svelte';
 
+  import GameList from '../../components/GameList.svelte';
+
   import { api } from '../../helpers/api';
   import { store } from '../../helpers/store';
 
@@ -24,18 +26,11 @@
     isLoading = true;
     await fetchGames();
   };
-
-  const renderPlayers = players => players.map(player => `${player.secondName} ${player.firstName}`).join(', ');
 </script>
 
 <style>
-  .winners {
-    color: blue;
-    font-weight: bold;
-  }
-
-  .current-player {
-    background-color: coral;
+  .game-list {
+    margin-top: 20px;
   }
 </style>
 
@@ -50,33 +45,6 @@
   <button>Создать игру</button>
 </a>
 
-<div>
-  {#if games && !isLoading}
-    {#each games as { id, firstTeam, secondTeam, winner, created }}
-      <p>
-        <b>{id}</b>
-        |
-        <span class={winner === 1 ? 'winners' : ''}>
-          {#each firstTeam as { id, firstName, secondName }, index}
-            <span class={user && user.player && user.player.id === id ? 'current-player' : ''}>
-              {secondName} {firstName}
-            </span>
-            {index === firstTeam.length - 1 ? '' : ', '}
-          {/each}
-        </span>
-        vs
-        <span class={winner === 2 ? 'winners' : ''}>
-          {#each secondTeam as { id, firstName, secondName }, index}
-            <span class={user && user.player && user.player.id === id ? 'current-player' : ''}>
-              {secondName} {firstName}
-            </span>
-            {index === secondTeam.length - 1 ? '' : ', '}
-          {/each}
-        </span>
-        | Дата: {new Date(created).toLocaleDateString('ru-RU')}
-      </p>
-    {/each}
-  {:else}
-    <h2>Loading...</h2>
-  {/if}
+<div class="game-list">
+  <GameList {games} {isLoading} highlightedPlayerId={user && user.player && user.player.id} />
 </div>
