@@ -1,4 +1,6 @@
 <script context="module">
+  import GameList from '../../components/GameList.svelte';
+
   import { api } from '../../helpers/api';
 
   export async function preload({ params }) {
@@ -12,18 +14,8 @@
 </script>
 
 <style>
-  .rating {
-    font-size: 18px;
-    font-weight: bold;
-  }
-
-  .winners {
-    color: blue;
-    font-weight: bold;
-  }
-
-  .current-player {
-    background-color: coral;
+  .game-list {
+    margin-top: 20px;
   }
 </style>
 
@@ -37,25 +29,6 @@
 
 <h2>История игр ({player.games.length})</h2>
 
-<div>
-  {#each player.games as { id, firstTeam, secondTeam, winner, created }}
-    <p>
-      <b>{id}</b>
-      |
-      <span class={winner === 1 ? 'winners' : ''}>
-        {#each firstTeam as { id, firstName, secondName }, index}
-          <span class={player && player.id === id ? 'current-player' : ''}>{secondName} {firstName}</span>
-          {index === firstTeam.length - 1 ? '' : ', '}
-        {/each}
-      </span>
-      vs
-      <span class={winner === 2 ? 'winners' : ''}>
-        {#each secondTeam as { id, firstName, secondName }, index}
-          <span class={player && player.id === id ? 'current-player' : ''}>{secondName} {firstName}</span>
-          {index === secondTeam.length - 1 ? '' : ', '}
-        {/each}
-      </span>
-      | Дата: {new Date(created).toLocaleDateString('ru-RU')}
-    </p>
-  {/each}
+<div class="game-list">
+  <GameList games={player.games} isLoading={false} highlightedPlayerId={player && player.id} />
 </div>
