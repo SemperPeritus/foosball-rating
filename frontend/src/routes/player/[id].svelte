@@ -9,8 +9,6 @@
 
 <script>
   export let player;
-
-  const renderPlayers = players => players.map(player => `${player.secondName} ${player.firstName}`).join(', ');
 </script>
 
 <style>
@@ -22,6 +20,10 @@
   .winners {
     color: blue;
     font-weight: bold;
+  }
+
+  .current-player {
+    background-color: coral;
   }
 </style>
 
@@ -40,9 +42,19 @@
     <p>
       <b>{id}</b>
       |
-      <span class={winner === 1 ? 'winners' : ''}>{renderPlayers(firstTeam)}</span>
+      <span class={winner === 1 ? 'winners' : ''}>
+        {#each firstTeam as { id, firstName, secondName }, index}
+          <span class={player && player.id === id ? 'current-player' : ''}>{secondName} {firstName}</span>
+          {index === firstTeam.length - 1 ? '' : ', '}
+        {/each}
+      </span>
       vs
-      <span class={winner === 2 ? 'winners' : ''}>{renderPlayers(secondTeam)}</span>
+      <span class={winner === 2 ? 'winners' : ''}>
+        {#each secondTeam as { id, firstName, secondName }, index}
+          <span class={player && player.id === id ? 'current-player' : ''}>{secondName} {firstName}</span>
+          {index === secondTeam.length - 1 ? '' : ', '}
+        {/each}
+      </span>
       | Дата: {new Date(created).toLocaleDateString('ru-RU')}
     </p>
   {/each}
