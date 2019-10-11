@@ -8,6 +8,7 @@ import { PlayerDto } from './player.dto';
 import { Entities } from '../../shared/constants/entities';
 import { getRatingForPlayers } from '../../shared/helpers/ratingHelper';
 import { merge } from '../../shared/helpers/merge';
+import { UserEntity } from '../user/user.entity';
 
 @Injectable()
 export class PlayerService {
@@ -33,10 +34,11 @@ export class PlayerService {
     return player;
   }
 
-  async create(data: PlayerDto) {
+  async create(data: PlayerDto, user: UserEntity) {
     const player = await this.playerRepository.create(data);
 
     player.rating = Entities.PLAYER_DEFAULT_RATING;
+    player.createdBy = user;
 
     await this.playerRepository.save(player);
 

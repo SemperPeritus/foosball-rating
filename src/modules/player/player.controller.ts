@@ -5,7 +5,8 @@ import { PlayerDto } from './player.dto';
 import { ValidationPipe } from '../../shared/processing/validation.pipe';
 import { parseSort } from '../../shared/helpers/parseSort';
 import { RequireMinimalRole } from '../../shared/processing/roles.decorator';
-import { Role } from '../user/user.entity';
+import { Role, UserEntity } from '../user/user.entity';
+import { User } from '../../shared/processing/user.decorator';
 
 @Controller('player')
 export class PlayerController {
@@ -28,8 +29,8 @@ export class PlayerController {
   @Post()
   @RequireMinimalRole(Role.user)
   @UsePipes(ValidationPipe)
-  createPlayer(@Body() data: PlayerDto) {
-    return this.playerService.create(data);
+  createPlayer(@Body() data: PlayerDto, @User() user: UserEntity) {
+    return this.playerService.create(data, user);
   }
 
   @Patch('rating')

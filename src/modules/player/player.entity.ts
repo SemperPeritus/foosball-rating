@@ -1,4 +1,13 @@
-import { Column, CreateDateColumn, Entity, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 import { GameEntity } from '../game/game.entity';
 import { UserEntity } from '../user/user.entity';
@@ -34,4 +43,7 @@ export class PlayerEntity {
 
   @CreateDateColumn()
   created: Date;
+
+  @ManyToOne(type => UserEntity, user => user.createdPlayers)
+  createdBy: UserEntity;
 }
