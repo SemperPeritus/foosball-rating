@@ -1,8 +1,16 @@
 <script>
   import { onMount } from 'svelte';
 
+  import Game from '../../components/Game.svelte';
+
   import { api } from '../../helpers/api';
   import { getCookie } from '../../helpers/cookie';
+  import { store } from '../../helpers/store';
+
+  let user;
+  const unsubscribe = store.user.subscribe(value => {
+    user = value;
+  });
 
   let players;
   let game;
@@ -63,13 +71,8 @@
     display: table-cell;
   }
 
-  .form__error {
+  .error {
     color: red;
-  }
-
-  .form__winners {
-    color: blue;
-    font-weight: bold;
   }
 </style>
 
@@ -79,58 +82,60 @@
 
 <h1>Создать игру</h1>
 
-<div class="form">
-  <div class="form__field">
-    <span class="form__field__element">Первая команда:</span>
+<div>
+  <div class="form">
+    <div class="form__field">
+      <span class="form__field__element">Первая команда:</span>
 
-    <select class="form__field__element" id="player1OfTeam1">
-      {#if players}
-        {#each players as { id, firstName, secondName }}
-          <option value={id}>{`${secondName} ${firstName}`}</option>
-        {/each}
-      {/if}
-    </select>
+      <select class="form__field__element" id="player1OfTeam1">
+        {#if players}
+          {#each players as { id, firstName, secondName }}
+            <option value={id}>{`${secondName} ${firstName}`}</option>
+          {/each}
+        {/if}
+      </select>
 
-    <select class="form__field__element" id="player2OfTeam1">
-      {#if players}
-        {#each players as { id, firstName, secondName }}
-          <option value={id}>{`${secondName} ${firstName}`}</option>
-        {/each}
-      {/if}
-    </select>
-  </div>
+      <select class="form__field__element" id="player2OfTeam1">
+        {#if players}
+          {#each players as { id, firstName, secondName }}
+            <option value={id}>{`${secondName} ${firstName}`}</option>
+          {/each}
+        {/if}
+      </select>
+    </div>
 
-  <div class="form__field">
-    <span class="form__field__element">Вторая команда:</span>
+    <div class="form__field">
+      <span class="form__field__element">Вторая команда:</span>
 
-    <select class="form__field__element" id="player1OfTeam2">
-      {#if players}
-        {#each players as { id, firstName, secondName }}
-          <option value={id}>{`${secondName} ${firstName}`}</option>
-        {/each}
-      {/if}
-    </select>
+      <select class="form__field__element" id="player1OfTeam2">
+        {#if players}
+          {#each players as { id, firstName, secondName }}
+            <option value={id}>{`${secondName} ${firstName}`}</option>
+          {/each}
+        {/if}
+      </select>
 
-    <select class="form__field__element" id="player2OfTeam2">
-      {#if players}
-        {#each players as { id, firstName, secondName }}
-          <option value={id}>{`${secondName} ${firstName}`}</option>
-        {/each}
-      {/if}
-    </select>
-  </div>
+      <select class="form__field__element" id="player2OfTeam2">
+        {#if players}
+          {#each players as { id, firstName, secondName }}
+            <option value={id}>{`${secondName} ${firstName}`}</option>
+          {/each}
+        {/if}
+      </select>
+    </div>
 
-  <div class="form__field">
-    <span class="form__field__element">Победители:</span>
+    <div class="form__field">
+      <span class="form__field__element">Победители:</span>
 
-    <select class="form__field__element" id="winner">
-      <option value={1}>Первая команда</option>
-      <option value={2}>Вторая команда</option>
-    </select>
+      <select class="form__field__element" id="winner">
+        <option value={1}>Первая команда</option>
+        <option value={2}>Вторая команда</option>
+      </select>
+    </div>
   </div>
 
   {#if isError}
-    <div class="form__error">
+    <div class="error">
       {errorMessage && (errorMessage.message ? `${errorMessage.error}. ${errorMessage.message}.` : errorMessage)}
     </div>
   {/if}
@@ -138,12 +143,6 @@
   <button on:click={createGame} disabled={isLoading}>Создать игру</button>
 
   {#if !isError && !isLoading && game}
-    <div>
-      <b>{game.id}</b>
-      |
-      <span class={game.winner === 1 ? 'form__winners' : ''}>{renderPlayers(game.firstTeam)}</span>
-      vs
-      <span class={game.winner === 2 ? 'form__winners' : ''}>{renderPlayers(game.secondTeam)}</span>
-    </div>
+    <Game {game} highlightedPlayerId={user.id} />
   {/if}
 </div>

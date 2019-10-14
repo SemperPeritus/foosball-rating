@@ -47,8 +47,12 @@
     display: table-cell;
   }
 
-  .form__error {
+  .error {
     color: red;
+  }
+
+  .player {
+    margin-top: 16px;
   }
 </style>
 
@@ -58,18 +62,20 @@
 
 <h1>Добавить игрока</h1>
 
-<div class="form">
-  <div class="form__field">
-    <label class="form__field__element" for="firstName">Имя:</label>
-    <input class="form__field__element" type="text" id="firstName" name="firstName" required maxlength="32" />
-  </div>
-  <div class="form__field">
-    <label class="form__field__element" for="secondName">Фамилия:</label>
-    <input class="form__field__element" type="text" id="secondName" name="secondName" required maxlength="32" />
+<div>
+  <div class="form">
+    <div class="form__field">
+      <label class="form__field__element" for="firstName">Имя:</label>
+      <input class="form__field__element" type="text" id="firstName" name="firstName" required maxlength="32" />
+    </div>
+    <div class="form__field">
+      <label class="form__field__element" for="secondName">Фамилия:</label>
+      <input class="form__field__element" type="text" id="secondName" name="secondName" required maxlength="32" />
+    </div>
   </div>
 
   {#if isError}
-    <div class="form__error">
+    <div class="error">
       {errorMessage && (errorMessage.message ? `${errorMessage.error}. ${errorMessage.message}.` : errorMessage)}
     </div>
   {/if}
@@ -77,7 +83,7 @@
   <button on:click={createPlayer} disabled={isLoading}>Добавить</button>
 
   {#if !isError && !isLoading && player}
-    <div>
+    <div class="player">
       <a href={`/player/${player.id}`}>{`${player.secondName} ${player.firstName}`}</a>
       - {Math.round(player.rating)}
     </div>
