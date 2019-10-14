@@ -1,12 +1,13 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindManyOptions, In, Repository } from 'typeorm';
+import { FindManyOptions, In, MoreThan, Repository } from 'typeorm';
 
 import { GameEntity } from './game.entity';
 import { GameDto } from './game.dto';
 import { PlayerEntity } from '../player/player.entity';
 import { UserEntity } from '../user/user.entity';
 import { merge } from '../../shared/helpers/merge';
+import { Entities } from '../../shared/constants/entities';
 
 @Injectable()
 export class GameService {
@@ -32,7 +33,20 @@ export class GameService {
     return game;
   }
 
+  async checkIsLimitReached(user: UserEntity) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const games = await this.gameRepository.find({ createdBy: user, created: MoreThan(today) });
+
+    return games.length >= Entities.MAX_GAMES_PER_DAY;
+  }
+
   async create(data: GameDto, user: UserEntity) {
+    if (await this.checkIsLimitReached(user)) {
+      throw new HttpException('Day limit reached.', HttpStatus.TOO_MANY_REQUESTS);
+    }
+
     const { winner } = data;
     const preparedGameDto = { winner };
     const game = await this.gameRepository.create(preparedGameDto);

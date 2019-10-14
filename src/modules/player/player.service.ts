@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
+import { FindManyOptions, FindOneOptions, MoreThan, Repository } from 'typeorm';
 
 import { PlayerEntity } from './player.entity';
 import { GameEntity } from '../game/game.entity';
@@ -34,7 +34,20 @@ export class PlayerService {
     return player;
   }
 
+  async checkIsLimitReached(user: UserEntity) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const games = await this.playerRepository.find({ createdBy: user, created: MoreThan(today) });
+
+    return games.length >= Entities.MAX_PLAYERS_PER_DAY;
+  }
+
   async create(data: PlayerDto, user: UserEntity) {
+    if (await this.checkIsLimitReached(user)) {
+      throw new HttpException('Day limit reached.', HttpStatus.TOO_MANY_REQUESTS);
+    }
+
     const player = await this.playerRepository.create(data);
 
     player.rating = Entities.PLAYER_DEFAULT_RATING;
