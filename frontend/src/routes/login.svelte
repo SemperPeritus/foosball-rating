@@ -44,7 +44,20 @@
 </script>
 
 <style>
-  .error {
+  .form {
+    display: table;
+    border-spacing: 5px;
+  }
+
+  .form__field {
+    display: table-row;
+  }
+
+  .form__field__element {
+    display: table-cell;
+  }
+
+  .form__error {
     color: red;
   }
 </style>
@@ -55,18 +68,18 @@
 
 <h1>Вход</h1>
 
-<div>
-  <div>
-    <label for="username">Логин:</label>
-    <input type="text" id="username" name="username" required maxlength="32" />
+<div class="form">
+  <div class="form__field">
+    <label class="form__field__element" for="username">Логин:</label>
+    <input class="form__field__element" type="text" id="username" name="username" required maxlength="32" />
   </div>
-  <div>
-    <label for="password">Пароль:</label>
-    <input type="password" id="password" name="password" required maxlength="32" />
+  <div class="form__field">
+    <label class="form__field__element" for="password">Пароль:</label>
+    <input class="form__field__element" type="password" id="password" name="password" required maxlength="32" />
   </div>
 
   {#if isError}
-    <div class="error">{errorMessage}</div>
+    <div class="form__error">{errorMessage}</div>
   {/if}
 
   <button on:click={login} disabled={isLoading}>Войти</button>
