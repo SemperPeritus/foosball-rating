@@ -1,3 +1,5 @@
 export const Entities = {
   PLAYER_DEFAULT_RATING: 1400,
+  MAX_GAMES_PER_DAY: 15,
+  MAX_PLAYERS_PER_DAY: 5,
 };
