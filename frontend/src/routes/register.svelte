@@ -15,6 +15,9 @@
   let isError = false;
   let errorMessage;
 
+  // Form values
+  let playerWanted;
+
   const fetchPlayers = async () => {
     players = await api.get('player');
   };
@@ -81,12 +84,44 @@
 </script>
 
 <style>
+  .form {
+    display: table;
+    border-spacing: 5px;
+  }
+
+  .form__field {
+    display: table-row;
+  }
+
+  .form__field__element {
+    display: table-cell;
+  }
+
   .error {
     color: red;
   }
 
-  .player-form-list {
+  .player-linking {
     display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .player-linking__hint {
+    width: 100%;
+  }
+
+  .player-linking__form {
+    display: table;
+    border-spacing: 5px;
+  }
+
+  .player-linking__form__field {
+    display: table-row;
+  }
+
+  .player-linking__form__field__element {
+    display: table-cell;
   }
 </style>
 
@@ -97,39 +132,63 @@
 <h1>Регистрация</h1>
 
 <div>
-  <div>
-    <label for="username">Логин:</label>
-    <input type="text" id="username" name="username" required maxlength="16" />
-  </div>
-  <div>
-    <label for="password">Пароль:</label>
-    <input type="password" id="password" name="password" required maxlength="16" />
-  </div>
-  <div>
-    <label for="passwordAgain">Подтвердите пароль:</label>
-    <input type="password" id="passwordAgain" name="passwordAgain" required maxlength="16" />
-  </div>
-  <span>Выберите или создайте нового игрока</span>
-  <div class="player-form-list">
-    <div>
-      <label for="playerWanted">Существующий игрок:</label>
-      <select id="playerWanted">
-        <option value="none">Новый игрок</option>
-        {#if players}
-          {#each players as { id, firstName, secondName }}
-            <option value={id}>{`${secondName} ${firstName}`}</option>
-          {/each}
-        {/if}
-      </select>
+  <div class="form">
+    <div class="form__field">
+      <label class="form__field__element" for="username">Логин:</label>
+      <input class="form__field__element" type="text" id="username" name="username" required maxlength="16" />
     </div>
-    <div>
-      <div>
-        <label for="firstName">Имя:</label>
-        <input type="text" id="firstName" name="firstName" required maxlength="32" />
+    <div class="form__field">
+      <label class="form__field__element" for="password">Пароль:</label>
+      <input class="form__field__element" type="password" id="password" name="password" required maxlength="16" />
+    </div>
+    <div class="form__field">
+      <label class="form__field__element" for="passwordAgain">Подтвердите пароль:</label>
+      <input
+        class="form__field__element"
+        type="password"
+        id="passwordAgain"
+        name="passwordAgain"
+        required
+        maxlength="16" />
+    </div>
+  </div>
+  <div class="player-linking">
+    <span class="player-linking__hint">Выберите или создайте нового игрока</span>
+    <div class="player-linking__form">
+      <div class="player-linking__form__field">
+        <label class="player-linking__form__field__element" for="playerWanted">Существующий игрок:</label>
+        <select class="player-linking__form__field__element" id="playerWanted" bind:value={playerWanted}>
+          <option value="none">Новый игрок</option>
+          {#if players}
+            {#each players as { id, firstName, secondName }}
+              <option value={id}>{`${secondName} ${firstName}`}</option>
+            {/each}
+          {/if}
+        </select>
       </div>
-      <div>
-        <label for="secondName">Фамилия:</label>
-        <input type="text" id="secondName" name="secondName" required maxlength="32" />
+    </div>
+    <div class="player-linking__form">
+      <div class="player-linking__form__field">
+        <label class="player-linking__form__field__element" for="firstName">Имя:</label>
+        <input
+          class="player-linking__form__field__element"
+          type="text"
+          id="firstName"
+          name="firstName"
+          required
+          disabled={playerWanted !== "none"}
+          maxlength="32" />
+      </div>
+      <div class="player-linking__form__field">
+        <label class="player-linking__form__field__element" for="secondName">Фамилия:</label>
+        <input
+          class="player-linking__form__field__element"
+          type="text"
+          id="secondName"
+          name="secondName"
+          required
+          disabled={playerWanted !== "none"}
+          maxlength="32" />
       </div>
     </div>
   </div>

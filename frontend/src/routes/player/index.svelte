@@ -41,7 +41,7 @@
 
 <h1>Список игроков</h1>
 
-<button on:click={updateRating} disabled={isLoading}>Обновить рейтинг</button>
+<button on:click={updateRating} disabled={isLoading}>Пересчитать рейтинг</button>
 <a href="/player/create">
   <button>Добавить игрока</button>
 </a>

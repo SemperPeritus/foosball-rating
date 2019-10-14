@@ -34,7 +34,20 @@
 </script>
 
 <style>
-  .error {
+  .form {
+    display: table;
+    border-spacing: 5px;
+  }
+
+  .form__field {
+    display: table-row;
+  }
+
+  .form__field__element {
+    display: table-cell;
+  }
+
+  .form__error {
     color: red;
   }
 </style>
@@ -45,18 +58,18 @@
 
 <h1>Добавить игрока</h1>
 
-<div>
-  <div>
-    <label for="firstName">Имя:</label>
-    <input type="text" id="firstName" name="firstName" required maxlength="32" />
+<div class="form">
+  <div class="form__field">
+    <label class="form__field__element" for="firstName">Имя:</label>
+    <input class="form__field__element" type="text" id="firstName" name="firstName" required maxlength="32" />
   </div>
-  <div>
-    <label for="secondName">Фамилия:</label>
-    <input type="text" id="secondName" name="secondName" required maxlength="32" />
+  <div class="form__field">
+    <label class="form__field__element" for="secondName">Фамилия:</label>
+    <input class="form__field__element" type="text" id="secondName" name="secondName" required maxlength="32" />
   </div>
 
   {#if isError}
-    <div class="error">
+    <div class="form__error">
       {errorMessage && (errorMessage.message ? `${errorMessage.error}. ${errorMessage.message}.` : errorMessage)}
     </div>
   {/if}

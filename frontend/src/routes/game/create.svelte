@@ -50,11 +50,24 @@
 </script>
 
 <style>
-  .error {
+  .form {
+    display: table;
+    border-spacing: 5px;
+  }
+
+  .form__field {
+    display: table-row;
+  }
+
+  .form__field__element {
+    display: table-cell;
+  }
+
+  .form__error {
     color: red;
   }
 
-  .winners {
+  .form__winners {
     color: blue;
     font-weight: bold;
   }
@@ -66,11 +79,11 @@
 
 <h1>Создать игру</h1>
 
-<div>
-  <div>
-    <span>Первая команда:</span>
+<div class="form">
+  <div class="form__field">
+    <span class="form__field__element">Первая команда:</span>
 
-    <select id="player1OfTeam1">
+    <select class="form__field__element" id="player1OfTeam1">
       {#if players}
         {#each players as { id, firstName, secondName }}
           <option value={id}>{`${secondName} ${firstName}`}</option>
@@ -78,27 +91,7 @@
       {/if}
     </select>
 
-    <select id="player2OfTeam1">
-      {#if players}
-        {#each players as { id, firstName, secondName }}
-          <option value={id}>{`${secondName} ${firstName}`}</option>
-        {/each}
-      {/if}
-    </select>
-  </div>
-
-  <div>
-    <span>Вторая команда:</span>
-
-    <select id="player1OfTeam2">
-      {#if players}
-        {#each players as { id, firstName, secondName }}
-          <option value={id}>{`${secondName} ${firstName}`}</option>
-        {/each}
-      {/if}
-    </select>
-
-    <select id="player2OfTeam2">
+    <select class="form__field__element" id="player2OfTeam1">
       {#if players}
         {#each players as { id, firstName, secondName }}
           <option value={id}>{`${secondName} ${firstName}`}</option>
@@ -107,17 +100,37 @@
     </select>
   </div>
 
-  <div>
-    <span>Победители:</span>
+  <div class="form__field">
+    <span class="form__field__element">Вторая команда:</span>
 
-    <select id="winner">
+    <select class="form__field__element" id="player1OfTeam2">
+      {#if players}
+        {#each players as { id, firstName, secondName }}
+          <option value={id}>{`${secondName} ${firstName}`}</option>
+        {/each}
+      {/if}
+    </select>
+
+    <select class="form__field__element" id="player2OfTeam2">
+      {#if players}
+        {#each players as { id, firstName, secondName }}
+          <option value={id}>{`${secondName} ${firstName}`}</option>
+        {/each}
+      {/if}
+    </select>
+  </div>
+
+  <div class="form__field">
+    <span class="form__field__element">Победители:</span>
+
+    <select class="form__field__element" id="winner">
       <option value={1}>Первая команда</option>
       <option value={2}>Вторая команда</option>
     </select>
   </div>
 
   {#if isError}
-    <div class="error">
+    <div class="form__error">
       {errorMessage && (errorMessage.message ? `${errorMessage.error}. ${errorMessage.message}.` : errorMessage)}
     </div>
   {/if}
@@ -128,9 +141,9 @@
     <div>
       <b>{game.id}</b>
       |
-      <span class={game.winner === 1 ? 'winners' : ''}>{renderPlayers(game.firstTeam)}</span>
+      <span class={game.winner === 1 ? 'form__winners' : ''}>{renderPlayers(game.firstTeam)}</span>
       vs
-      <span class={game.winner === 2 ? 'winners' : ''}>{renderPlayers(game.secondTeam)}</span>
+      <span class={game.winner === 2 ? 'form__winners' : ''}>{renderPlayers(game.secondTeam)}</span>
     </div>
   {/if}
 </div>
