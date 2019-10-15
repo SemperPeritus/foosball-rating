@@ -73,4 +73,26 @@ export class UserService {
 
     return newUser.toResponseObject(true);
   }
+
+  async patchUser(id: string, data: Partial<UserEntity>, moderator: UserEntity) {
+    const user = await this.userRepository.findOne(id);
+
+    if (user.role >= moderator.role) {
+      throw new HttpException('This user have the same or higher role than you.', HttpStatus.FORBIDDEN);
+    }
+
+    if (data.role) {
+      if (data.role >= moderator.role) {
+        throw new HttpException(
+          'You can not grant user with the same or higher role than your.',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      user.role = data.role;
+    }
+
+    await this.userRepository.update(id, user);
+
+    return await this.userRepository.findOne(id);
+  }
 }
