@@ -8,6 +8,10 @@
       return 'role role_fag';
     }
 
+    if (role === Role.USER) {
+      return 'role role_user';
+    }
+
     if (role === Role.MODERATOR) {
       return 'role role_moderator';
     }
@@ -27,6 +31,10 @@
 
   .role_fag {
     color: aqua;
+  }
+
+  .role_user {
+    color: #555;
   }
 
   .role_moderator {
