@@ -34,6 +34,6 @@ export class GameEntity {
   @CreateDateColumn()
   created: Date;
 
-  @ManyToOne(type => UserEntity, user => user.games)
+  @ManyToOne(type => UserEntity, user => user.games, { nullable: false })
   createdBy: UserEntity;
 }

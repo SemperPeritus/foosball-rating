@@ -4,7 +4,7 @@
   import { api } from '../../helpers/api';
 
   export async function preload({ params }) {
-    const player = await api.get(`player/${params.id}/?include=games,games.firstTeam,games.secondTeam`);
+    const player = await api.get(`player/${params.id}/?include=games,games.firstTeam,games.secondTeam,games.createdBy`);
     return { player };
   }
 </script>

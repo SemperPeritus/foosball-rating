@@ -9,6 +9,7 @@
 <style>
   .game-list {
     display: table;
+    width: 100%;
     border-collapse: collapse;
     border-spacing: 10px;
   }
@@ -29,6 +30,10 @@
   .game-list__game__cell_id {
     min-width: 30px;
   }
+
+  .game-list__game__created-by {
+    min-width: 140px;
+  }
 </style>
 
 <div class="game-list">
@@ -37,7 +42,8 @@
       <div class="game-list__game__cell game-list__game__cell_id">ID</div>
       <div class="game-list__game__cell">Первая команда</div>
       <div class="game-list__game__cell">Вторая команда</div>
-      <div class="game-list__game__cell">Дата</div>
+      <div class="game-list__game__cell">Дата и время</div>
+      <div class="game-list__game__cell game-list__game__created-by">Кем добавлено</div>
     </div>
     {#each games as game}
       <Game {game} {highlightedPlayerId} />
