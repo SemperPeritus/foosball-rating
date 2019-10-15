@@ -1,13 +1,14 @@
-import { Body, Controller, Get, Param, Post, Query, UsePipes } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query, UsePipes } from '@nestjs/common';
 
 import { UserService } from './user.service';
 import { UserLoginDto } from './userLogin.dto';
 import { UserRegisterDto } from './userRegister.dto';
 import { ValidationPipe } from '../../shared/processing/validation.pipe';
 import { parseSort } from '../../shared/helpers/parseSort';
-import { UserEntity } from './user.entity';
+import { Role, UserEntity } from './user.entity';
 import { User } from '../../shared/processing/user.decorator';
 import { UserValidationPipe } from './userValidation.pipe';
+import { RequireMinimalRole } from '../../shared/processing/roles.decorator';
 
 @Controller('user')
 export class UserController {
@@ -44,5 +45,11 @@ export class UserController {
   @UsePipes(ValidationPipe)
   register(@Body() data: UserRegisterDto) {
     return this.userService.register(data);
+  }
+
+  @Patch(':id')
+  @RequireMinimalRole(Role.MODERATOR)
+  patchUser(@Param('id') id: string, @Body() data: Partial<UserEntity>, @User() moderator: UserEntity) {
+    return this.userService.patchUser(id, data, moderator);
   }
 }
