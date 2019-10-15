@@ -27,7 +27,7 @@ export class PlayerController {
   }
 
   @Post()
-  @RequireMinimalRole(Role.user)
+  @RequireMinimalRole(Role.USER)
   @UsePipes(ValidationPipe)
   createPlayer(@Body() data: PlayerDto, @User() user: UserEntity) {
     return this.playerService.create(data, user);

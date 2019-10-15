@@ -16,10 +16,11 @@ import { PlayerEntity } from '../player/player.entity';
 import { GameEntity } from '../game/game.entity';
 
 export enum Role {
-  nonVerifiedUser = 80,
-  user = 100,
-  moderator = 300,
-  admin = 700,
+  FAG = 50,
+  NON_VERIFIED_USER = 80,
+  USER = 100,
+  MODERATOR = 300,
+  ADMIN = 700,
 }
 
 @Entity('user')
@@ -40,7 +41,7 @@ export class UserEntity {
   @ManyToOne(type => PlayerEntity, player => player.usersWants, { nullable: true, eager: true })
   playerWanted: PlayerEntity;
 
-  @Column({ type: 'enum', enum: Role, default: Role.nonVerifiedUser })
+  @Column({ type: 'enum', enum: Role, default: Role.NON_VERIFIED_USER })
   role: Role;
 
   @OneToMany(type => GameEntity, game => game.createdBy)

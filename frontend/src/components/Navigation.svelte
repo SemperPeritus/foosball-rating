@@ -1,6 +1,9 @@
 <script>
   import { onMount } from 'svelte';
 
+  import UserRating from './UserRating.svelte';
+  import UserRole from './UserRole.svelte';
+
   import { api } from '../helpers/api';
   import { store } from '../helpers/store';
   import { getCookie, deleteCookie } from '../helpers/cookie';
@@ -73,20 +76,23 @@
 <nav>
   <ul>
     <li>
-      <a class={segment === undefined ? 'selected' : ''} href=".">Главная</a>
+      <a class:selected={segment === undefined} href=".">Главная</a>
     </li>
     <li>
-      <a class={segment === 'player' ? 'selected' : ''} href="player">Игроки</a>
+      <a class:selected={segment === 'player'} href="player">Игроки</a>
     </li>
     <li>
-      <a class={segment === 'game' ? 'selected' : ''} href="game">Игры</a>
+      <a class:selected={segment === 'game'} href="game">Игры</a>
+    </li>
+    <li>
+      <a class:selected={segment === 'user'} href="user">Пользователи</a>
     </li>
     {#if !user}
       <li>
-        <a class={segment === 'register' ? 'selected' : ''} href="register">Регистрация</a>
+        <a class:selected={segment === 'register'} href="register">Регистрация</a>
       </li>
       <li>
-        <a class={segment === 'login' ? 'selected' : ''} href="login">Вход</a>
+        <a class:selected={segment === 'login'} href="login">Вход</a>
       </li>
     {:else}
       <li>
@@ -95,10 +101,15 @@
       <li>
         <div>
           <div>
-            <b>{user.username} ({Math.round(user.player ? user.player.rating : user.playerWanted.rating)}{user.player ? '' : '?'})</b>
-            Права: {user.role}
+            <b>
+              {user.username} <UserRating {user} />
+            </b>
+            <UserRole role={user.role} />
           </div>
-          <div>{user.player ? user.player.secondName : user.playerWanted.secondName} {user.player ? user.player.firstName : user.playerWanted.firstName}{user.player ? '' : '?'}</div>
+          <div>
+            {user.player ? user.player.secondName : user.playerWanted.secondName}
+            {user.player ? user.player.firstName : user.playerWanted.firstName}{user.player ? '' : '?'}
+          </div>
         </div>
       </li>
     {/if}

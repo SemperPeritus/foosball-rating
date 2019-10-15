@@ -29,7 +29,7 @@ export class GameController {
   }
 
   @Post()
-  @RequireMinimalRole(Role.user)
+  @RequireMinimalRole(Role.USER)
   @UsePipes(ValidationPipe)
   @UsePipes(GameValidationPipe)
   createGame(@Body() data: GameDto, @User() user: UserEntity) {
