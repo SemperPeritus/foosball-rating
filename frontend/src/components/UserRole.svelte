@@ -3,7 +3,7 @@
 
   export let role;
 
-  const getRoleClass = () => {
+  $: getRoleClass = () => {
     if (role === Role.FAG) {
       return 'role role_fag';
     }
