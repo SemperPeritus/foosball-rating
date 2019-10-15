@@ -1,6 +1,14 @@
 <script>
   export let game;
   export let highlightedPlayerId;
+
+  const formatDate = dateString => {
+    const date = new Date(game.created);
+    const hours = ("0" + date.getHours()).slice(-2);
+    const minutes = ("0" + date.getMinutes()).slice(-2);
+
+    return `${date.toLocaleDateString('ru-RU')} ${hours}:${minutes}`;
+  }
 </script>
 
 <style>
@@ -20,8 +28,8 @@
   }
 
   .game__winners {
-    color: blue;
     font-weight: bold;
+    color: blue;
   }
 
   .game__highlighted-player {
@@ -43,5 +51,6 @@
       {index === game.secondTeam.length - 1 ? '' : '| '}
     {/each}
   </div>
-  <div class="game__cell">{new Date(game.created).toLocaleDateString('ru-RU')}</div>
+  <div class="game__cell">{formatDate(game.created)}</div>
+  <div class="game__cell"><a href={`/user/${game.createdBy.id}`}>{game.createdBy.username}</a></div>
 </div>

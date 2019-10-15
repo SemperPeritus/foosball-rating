@@ -16,7 +16,7 @@
 
   const fetchGames = async () => {
     isLoading = true;
-    games = await api.get('game?sort=created:DESC&include=firstTeam,secondTeam');
+    games = await api.get('game?sort=created:DESC&include=firstTeam,secondTeam,createdBy');
     isLoading = false;
   };
 
