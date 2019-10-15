@@ -40,8 +40,15 @@
   {#if users && !isLoading}
     {#each users as user}
       <div>
-        <span class="user__username">{user.username}</span>
-        - <span>{user.player.secondName} {user.player.firstName}</span>
+        <a href={`user/${user.id}`}>
+          <span class="user__username">{user.username}</span>
+        </a>
+        -
+        <span>
+          {user.player ? user.player.secondName : user.playerWanted.secondName}
+          {user.player ? user.player.firstName : user.playerWanted.firstName}
+          {user.player ? '' : '?'}
+        </span>
         <UserRating {user} />
         <UserRole role={user.role} />
       </div>
