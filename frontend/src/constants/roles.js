@@ -13,3 +13,5 @@ export const RolesMap = {
   300: 'Модератор',
   700: 'Админ',
 };
+
+export const RolesArray = Object.keys(RolesMap).map(key => ({ privileges: key, title: RolesMap[key] }));

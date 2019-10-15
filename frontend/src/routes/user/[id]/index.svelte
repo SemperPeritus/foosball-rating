@@ -8,10 +8,17 @@
 <script>
   import { onMount } from 'svelte';
 
-  import UserRole from '../../components/UserRole.svelte';
-  import PlayerLink from '../../components/PlayerLink.svelte';
+  import UserRole from '../../../components/UserRole.svelte';
+  import PlayerLink from '../../../components/PlayerLink.svelte';
 
-  import { api } from '../../helpers/api';
+  import { api } from '../../../helpers/api';
+  import { store } from '../../../helpers/store';
+  import { Role } from '../../../constants/roles.js';
+
+  let role;
+  const unsubscribe = store.user.subscribe(value => {
+    role = value && value.role;
+  });
 
   export let userId;
   let user;
@@ -21,24 +28,35 @@
   let title;
   $: title = `Пользователь${user ? ` ${user.username}` : ''}`;
 
-  const fetchUsers = async () => {
+  const fetchUser = async () => {
     isLoading = true;
     user = await api.get(`user/${userId}`);
     isLoading = false;
   };
 
-  onMount(fetchUsers);
+  onMount(fetchUser);
 </script>
+
+<style>
+  .header {
+    display: inline-block;
+  }
+</style>
 
 <svelte:head>
   <title>{title}</title>
 </svelte:head>
 
-<h1>
-  {title} (
-  <UserRole role={user && user.role} />
-  )
-</h1>
+<div>
+  <h1 class="header">
+    {title} (
+    <UserRole role={user && user.role} />
+    )
+  </h1>
+  {#if role && role >= Role.MODERATOR}
+    <a href={`/user/${userId}/edit`}>Изменить</a>
+  {/if}
+</div>
 
 <div>
   {#if user && !isLoading}
