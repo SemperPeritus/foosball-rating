@@ -1,6 +1,7 @@
 <script>
   export let game;
   export let highlightedPlayerId;
+  export let onDelete;
 
   const formatDate = dateString => {
     const date = new Date(game.created);
@@ -9,6 +10,12 @@
 
     return `${date.toLocaleDateString('ru-RU')} ${hours}:${minutes}`;
   };
+
+  const deleteGame = () => {
+    if (confirm(`Вы уверены, что хотите удалить эту игру?\n${game.id}`)) {
+      onDelete && onDelete();
+    }
+  }
 </script>
 
 <style>
@@ -54,5 +61,8 @@
   <div class="game__cell">{formatDate(game.created)}</div>
   <div class="game__cell">
     <a href={`/user/${game.createdBy.id}`}>{game.createdBy.username}</a>
+  </div>
+  <div class="game__cell">
+    <button on:click={deleteGame}>❌</button>
   </div>
 </div>

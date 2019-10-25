@@ -4,6 +4,11 @@
   export let games;
   export let isLoading;
   export let highlightedPlayerId;
+  export let onDelete;
+
+  const deleteGame = id => {
+    onDelete && onDelete(id);
+  };
 </script>
 
 <style>
@@ -44,9 +49,10 @@
       <div class="game-list__game__cell">Вторая команда</div>
       <div class="game-list__game__cell">Дата и время</div>
       <div class="game-list__game__cell game-list__game__created-by">Кем добавлено</div>
+      <div class="game-list__game__cell">Действия</div>
     </div>
     {#each games as game}
-      <Game {game} {highlightedPlayerId} />
+      <Game {game} {highlightedPlayerId} onDelete={() => deleteGame(game.id)} />
     {/each}
   {:else}
     <h2>Loading...</h2>

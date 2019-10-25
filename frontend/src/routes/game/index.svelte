@@ -5,6 +5,7 @@
 
   import { api } from '../../helpers/api';
   import { store } from '../../helpers/store';
+  import { getCookie } from '../../helpers/cookie';
 
   let user;
   const unsubscribe = store.user.subscribe(value => {
@@ -22,9 +23,13 @@
 
   onMount(fetchGames);
 
-  const updateGames = async () => {
-    isLoading = true;
-    await fetchGames();
+  const deleteGame = async id => {
+    const request = await api.del(`game/${id}`, getCookie('token'));
+    if (request && request.affected === 1) {
+      fetchGames();
+    } else {
+      alert(`Ошибка!\n${request.message}`);
+    }
   };
 </script>
 
@@ -40,11 +45,11 @@
 
 <h1>Список игр</h1>
 
-<button on:click={updateGames} disabled={isLoading}>Обновить список</button>
+<button on:click={fetchGames} disabled={isLoading}>Обновить список</button>
 <a href="/game/create">
   <button>Создать игру</button>
 </a>
 
 <div class="game-list">
-  <GameList {games} {isLoading} highlightedPlayerId={user && user.player && user.player.id} />
+  <GameList {games} {isLoading} highlightedPlayerId={user && user.player && user.player.id} onDelete={deleteGame} />
 </div>
