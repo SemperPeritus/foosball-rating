@@ -24,7 +24,7 @@
   {/if}
   <a href={`/player/${player.id}`}>
     <span class:player__name_highlighted={player.id === highlightedPlayerId}>
-      {`${player.secondName} ${player.firstName}`}
+      {`${player.firstName} ${player.secondName}`}
     </span>
   </a>
   - {Math.round(player.rating)}

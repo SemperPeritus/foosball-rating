@@ -102,13 +102,14 @@
         <div>
           <div>
             <b>
-              {user.username} <UserRating {user} />
+              {user.username}
+              <UserRating {user} />
             </b>
             <UserRole role={user.role} />
           </div>
           <div>
-            {user.player ? user.player.secondName : user.playerWanted.secondName}
-            {user.player ? user.player.firstName : user.playerWanted.firstName}{user.player ? '' : '?'}
+            {user.player ? user.player.firstName : user.playerWanted.firstName}
+            {user.player ? user.player.secondName : user.playerWanted.secondName}{user.player ? '' : '?'}
           </div>
         </div>
       </li>

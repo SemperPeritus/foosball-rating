@@ -45,9 +45,8 @@
         </a>
         -
         <span>
-          {user.player ? user.player.secondName : user.playerWanted.secondName}
           {user.player ? user.player.firstName : user.playerWanted.firstName}
-          {user.player ? '' : '?'}
+          {user.player ? user.player.secondName : user.playerWanted.secondName}{user.player ? '' : '?'}
         </span>
         <UserRating {user} />
         <UserRole role={user.role} />
