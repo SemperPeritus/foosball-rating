@@ -4,11 +4,11 @@
 
   const formatDate = dateString => {
     const date = new Date(game.created);
-    const hours = ("0" + date.getHours()).slice(-2);
-    const minutes = ("0" + date.getMinutes()).slice(-2);
+    const hours = ('0' + date.getHours()).slice(-2);
+    const minutes = ('0' + date.getMinutes()).slice(-2);
 
     return `${date.toLocaleDateString('ru-RU')} ${hours}:${minutes}`;
-  }
+  };
 </script>
 
 <style>
@@ -41,16 +41,18 @@
   <b class="game__cell game__cell_id">{game.id}</b>
   <div class="game__cell" class:game__winners={game.winner === 1}>
     {#each game.firstTeam as { id, firstName, secondName }, index}
-      <span class:game__highlighted-player={highlightedPlayerId === id}>{secondName} {firstName}</span>
+      <span class:game__highlighted-player={highlightedPlayerId === id}>{firstName} {secondName}</span>
       {index === game.firstTeam.length - 1 ? '' : '| '}
     {/each}
   </div>
   <div class="game__cell" class:game__winners={game.winner === 2}>
     {#each game.secondTeam as { id, firstName, secondName }, index}
-      <span class:game__highlighted-player={highlightedPlayerId === id}>{secondName} {firstName}</span>
+      <span class:game__highlighted-player={highlightedPlayerId === id}>{firstName} {secondName}</span>
       {index === game.secondTeam.length - 1 ? '' : '| '}
     {/each}
   </div>
   <div class="game__cell">{formatDate(game.created)}</div>
-  <div class="game__cell"><a href={`/user/${game.createdBy.id}`}>{game.createdBy.username}</a></div>
+  <div class="game__cell">
+    <a href={`/user/${game.createdBy.id}`}>{game.createdBy.username}</a>
+  </div>
 </div>

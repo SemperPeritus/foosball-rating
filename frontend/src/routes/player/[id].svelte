@@ -20,10 +20,10 @@
 </style>
 
 <svelte:head>
-  <title>Игрок {`${player.secondName} ${player.firstName}`}</title>
+  <title>Игрок {`${player.firstName} ${player.secondName}`}</title>
 </svelte:head>
 
-<h1>{`${player.secondName} ${player.firstName}`}</h1>
+<h1>{`${player.firstName} ${player.secondName}`}</h1>
 
 <div class="rating">Рейтинг: {Math.round(player.rating)}</div>
 

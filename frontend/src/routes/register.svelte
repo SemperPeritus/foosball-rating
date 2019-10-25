@@ -161,7 +161,7 @@
           <option value="none">Новый игрок</option>
           {#if players}
             {#each players as { id, firstName, secondName }}
-              <option value={id}>{`${secondName} ${firstName}`}</option>
+              <option value={id}>{`${firstName} ${secondName}`}</option>
             {/each}
           {/if}
         </select>
