@@ -11,6 +11,7 @@ import {
 
 import { GameEntity } from '../game/game.entity';
 import { UserEntity } from '../user/user.entity';
+import { Rating } from '../../shared/constants/rating';
 
 @Entity('player')
 export class PlayerEntity {
@@ -23,7 +24,7 @@ export class PlayerEntity {
   @Column('text', { default: '' })
   secondName: string;
 
-  @Column('double precision')
+  @Column('double precision', { default: Rating.PLAYER_DEFAULT_RATING })
   rating: number;
 
   @OneToOne(type => UserEntity, user => user.player)

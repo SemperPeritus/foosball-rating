@@ -6,6 +6,7 @@ import { PlayerEntity } from './player.entity';
 import { GameEntity } from '../game/game.entity';
 import { PlayerDto } from './player.dto';
 import { Entities } from '../../shared/constants/entities';
+import { Rating } from '../../shared/constants/rating';
 import { getRatingForPlayers } from '../../shared/helpers/ratingHelper';
 import { merge } from '../../shared/helpers/merge';
 import { UserEntity } from '../user/user.entity';
@@ -50,7 +51,6 @@ export class PlayerService {
 
     const player = await this.playerRepository.create(data);
 
-    player.rating = Entities.PLAYER_DEFAULT_RATING;
     player.createdBy = user;
 
     await this.playerRepository.save(player);
@@ -60,7 +60,7 @@ export class PlayerService {
 
   async getPlayersRating() {
     const players = (await this.playerRepository.find()).map(player => {
-      player.rating = 1400;
+      player.rating = Rating.PLAYER_DEFAULT_RATING;
       return player;
     });
     const relations = ['players', 'firstTeam', 'secondTeam'];

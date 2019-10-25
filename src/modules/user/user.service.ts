@@ -6,7 +6,6 @@ import { UserEntity } from './user.entity';
 import { PlayerEntity } from '../player/player.entity';
 import { UserLoginDto } from './userLogin.dto';
 import { UserRegisterDto } from './userRegister.dto';
-import { Entities } from '../../shared/constants/entities';
 import { merge } from '../../shared/helpers/merge';
 
 @Injectable()
@@ -61,7 +60,6 @@ export class UserService {
 
       player.firstName = firstName;
       player.secondName = secondName;
-      player.rating = Entities.PLAYER_DEFAULT_RATING;
 
       await this.playerRepository.save(player);
     }
