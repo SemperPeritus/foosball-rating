@@ -63,7 +63,7 @@ const getPlayerWithNewRating = (
       : isNewbies
       ? Rating.SIGNIFICANCE_FACTOR_VS_NEWBIE
       : Rating.SIGNIFICANCE_FACTOR;
-  const ratingDiff = correctionAmount * (isWinner ? 1 : -1) * significanceFactor;
+  const ratingDiff = Math.round(correctionAmount * (isWinner ? 1 : -1) * significanceFactor);
 
   return {
     ...player,
@@ -75,9 +75,9 @@ const getPlayerWithNewRating = (
 const getCorrectionAmount = (players: PlayerEntity[], game: GameEntity) => {
   const teamRatingDiff = getTeamRatingDiff(players, game);
   const someCrap = 1 - 1 / (Math.pow(10, teamRatingDiff) + 1);
-  const crapWithFactors = someCrap * Rating.BASE_FACTOR * Rating.CONFIDENCE_FACTOR;
 
-  return Math.round(crapWithFactors);
+  // Crap with factors
+  return someCrap * Rating.BASE_FACTOR * Rating.CONFIDENCE_FACTOR;
 };
 
 const getTeamRatingDiff = (players: PlayerEntity[], game: GameEntity) => {
