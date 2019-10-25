@@ -21,9 +21,11 @@ export class PlayerController {
   }
 
   @Get(':id')
-  readPlayer(@Param('id') id: string, @Query('include') include: string) {
+  readPlayer(@Param('id') id: string, @Query('include') include: string, @Query('sort') sort: string) {
     const relations = include && include.split(',');
-    return this.playerService.read(id, { relations });
+    const order = parseSort(sort);
+
+    return this.playerService.read(id, { relations, order });
   }
 
   @Post()

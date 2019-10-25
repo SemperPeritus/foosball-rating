@@ -16,8 +16,7 @@ export class UserService {
   ) {}
 
   async showAll(options?: FindManyOptions<UserEntity>) {
-    // Don't remove type for this line. Needs to compile TS.
-    const defaultOptions: FindManyOptions<UserEntity> = { order: { id: 'ASC' } };
+    const defaultOptions = { order: { id: 'ASC' } };
 
     const users = await this.userRepository.find(merge(defaultOptions, options));
 

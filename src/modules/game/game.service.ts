@@ -17,8 +17,7 @@ export class GameService {
   ) {}
 
   async showAll(options?: FindManyOptions<GameEntity>) {
-    // Don't remove type for this line. Needs to compile TS.
-    const defaultOptions: FindManyOptions<GameEntity> = { order: { created: 'ASC' } };
+    const defaultOptions = { order: { created: 'ASC' } };
 
     return await this.gameRepository.find(merge(defaultOptions, options));
   }
