@@ -48,7 +48,7 @@
 
     let data = { username, password };
 
-    if (playerWanted === 'none') {
+    if (isNaN(playerWanted)) {
       data = { ...data, firstName, secondName };
     } else {
       data = { ...data, playerWanted };
@@ -58,7 +58,6 @@
   };
 
   const login = async () => {
-    isLoading = true;
     isError = false;
     errorMessage = null;
 
@@ -67,6 +66,7 @@
     }
 
     const data = getFormData();
+    isLoading = true;
     user = await api.post('user/register', data);
 
     isLoading = false;
