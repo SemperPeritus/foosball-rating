@@ -41,13 +41,13 @@
   <b class="game__cell game__cell_id">{game.id}</b>
   <div class="game__cell" class:game__winners={game.winner === 1}>
     {#each game.firstTeam as { id, firstName, secondName }, index}
-      <span class:game__highlighted-player={highlightedPlayerId === id}>{firstName} {secondName}</span>
+      <a class:game__highlighted-player={highlightedPlayerId === id} href={`/player/${id}`}>{firstName} {secondName}</a>
       {index === game.firstTeam.length - 1 ? '' : '| '}
     {/each}
   </div>
   <div class="game__cell" class:game__winners={game.winner === 2}>
     {#each game.secondTeam as { id, firstName, secondName }, index}
-      <span class:game__highlighted-player={highlightedPlayerId === id}>{firstName} {secondName}</span>
+      <a class:game__highlighted-player={highlightedPlayerId === id} href={`/player/${id}`}>{firstName} {secondName}</a>
       {index === game.secondTeam.length - 1 ? '' : '| '}
     {/each}
   </div>
