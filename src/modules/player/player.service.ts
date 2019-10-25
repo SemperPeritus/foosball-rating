@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindManyOptions, FindOneOptions, MoreThan, Repository } from 'typeorm';
+import { FindManyOptions, FindOneOptions, MoreThan, OrderByCondition, Repository } from 'typeorm';
 
 import { PlayerEntity } from './player.entity';
 import { GameEntity } from '../game/game.entity';
@@ -10,6 +10,7 @@ import { Rating } from '../../shared/constants/rating';
 import { getRatingForPlayers } from '../../shared/helpers/ratingHelper';
 import { merge } from '../../shared/helpers/merge';
 import { UserEntity } from '../user/user.entity';
+import { fillUpRelations } from '../../shared/helpers/fillUpRelations';
 
 @Injectable()
 export class PlayerService {
@@ -19,14 +20,22 @@ export class PlayerService {
   ) {}
 
   async showAll(options?: FindManyOptions<PlayerEntity>) {
-    // Don't remove type for this line. Needs to compile TS.
-    const defaultOptions: FindManyOptions<PlayerEntity> = { order: { id: 'ASC' } };
+    const defaultOptions = { order: { id: 'ASC' } };
 
     return await this.playerRepository.find(merge(defaultOptions, options));
   }
 
   async read(id: string, options?: FindOneOptions<PlayerEntity>) {
-    const player = await this.playerRepository.findOne(id, options);
+    // Don't remove type for this line. Needs to compile TS.
+    const defaultOrder: OrderByCondition = { 'game.created': 'DESC' };
+
+    const queryBuilder = this.playerRepository.createQueryBuilder('player');
+    const playerQueryWithRelations = fillUpRelations(queryBuilder, options.relations);
+
+    const player = await playerQueryWithRelations
+      .where('player.id = :id', { id })
+      .orderBy(merge(defaultOrder, options.order))
+      .getOne();
 
     if (!player) {
       throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
