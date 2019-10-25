@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query, UsePipes } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, UsePipes } from '@nestjs/common';
 
 import { GameService } from './game.service';
 import { GameDto } from './game.dto';
@@ -34,5 +34,11 @@ export class GameController {
   @UsePipes(GameValidationPipe)
   createGame(@Body() data: GameDto, @User() user: UserEntity) {
     return this.gameService.create(data, user);
+  }
+
+  @Delete(':id')
+  @RequireMinimalRole(Role.USER)
+  deleteGame(@Param('id') id: string, @User() user: UserEntity) {
+    return this.gameService.delete(id, user);
   }
 }

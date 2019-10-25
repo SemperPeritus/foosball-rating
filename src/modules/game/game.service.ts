@@ -5,7 +5,7 @@ import { FindManyOptions, In, MoreThan, Repository } from 'typeorm';
 import { GameEntity } from './game.entity';
 import { GameDto } from './game.dto';
 import { PlayerEntity } from '../player/player.entity';
-import { UserEntity } from '../user/user.entity';
+import { Role, UserEntity } from '../user/user.entity';
 import { merge } from '../../shared/helpers/merge';
 import { Entities } from '../../shared/constants/entities';
 
@@ -61,5 +61,23 @@ export class GameService {
     await this.gameRepository.save(game);
 
     return game;
+  }
+
+  async delete(id: string, user: UserEntity) {
+    const game = await this.gameRepository.findOne(id, { relations: ['createdBy'] });
+
+    if (!game) {
+      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    }
+
+    const now = new Date();
+    const allowedGameDeletionByUser = new Date(now.getTime() - Entities.GAME_DELETION_BY_USER_ALLOWED_TIME);
+    const isAllowedForUser = game.created >= allowedGameDeletionByUser && game.createdBy.id === user.id;
+    const isAllowedForModerator = user.role >= Role.MODERATOR;
+    if (!isAllowedForUser && !isAllowedForModerator) {
+      throw new HttpException('You are not moderator and this is not your recent game', HttpStatus.FORBIDDEN);
+    }
+
+    return await this.gameRepository.delete(id);
   }
 }
