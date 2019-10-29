@@ -1,5 +1,8 @@
 <script context="module">
+  import { getPlayer } from '../../helpers/apiHelper';
+
   export async function preload({ params }) {
+    getPlayer(params.id);
     return { params };
   }
 </script>
@@ -10,25 +13,17 @@
   import GameList from '../../components/GameList.svelte';
 
   import { api } from '../../helpers/api';
+  import { player } from '../../helpers/store';
   import { getCookie } from '../../helpers/cookie';
 
   export let params;
 
-  let player;
-  let isLoading = false;
-
-  const fetchGames = async () => {
-    isLoading = true;
-    player = await api.get(`player/${params.id}/?include=games,games.firstTeam,games.secondTeam,games.createdBy`);
-    isLoading = false;
-  };
-
-  onMount(fetchGames);
+  onMount(() => getPlayer(params.id));
 
   const deleteGame = async id => {
     const request = await api.del(`game/${id}`, getCookie('token'));
     if (request && request.affected === 1) {
-      fetchGames();
+      getPlayer(params.id);
     } else {
       alert(`Ошибка!\n${request.message}`);
     }
@@ -42,17 +37,29 @@
 </style>
 
 <svelte:head>
-  <title>Игрок{player ? ` ${player.firstName} ${player.secondName}` : ''}</title>
+  <title>
+    Игрок{$player && $player !== null ? ` ${$player.firstName} ${$player.secondName}` : ''}
+  </title>
 </svelte:head>
 
-{#if player}
-  <h1>{`${player.firstName} ${player.secondName}`}</h1>
+{#await $player}
+  <h1>Loading...</h1>
+{:then player}
+  {#if player}
+    <h1>{`${player.firstName} ${player.secondName}`}</h1>
 
-  <div class="rating">Рейтинг: {Math.round(player.rating)}</div>
+    <div class="rating">Рейтинг: {Math.round(player.rating)}</div>
 
-  <h2>История игр ({player.games.length})</h2>
+    <h2>История игр ({player.games.length})</h2>
 
-  <div class="game-list">
-    <GameList games={player.games} {isLoading} highlightedPlayerId={player && player.id} onDelete={deleteGame} />
-  </div>
-{/if}
+    <div class="game-list">
+      <GameList
+        games={player.games}
+        isLoading={false}
+        highlightedPlayerId={player && player.id}
+        onDelete={deleteGame} />
+    </div>
+  {:else}{JSON.stringify(player)}{/if}
+{:catch error}
+  <div>{error}</div>
+{/await}
