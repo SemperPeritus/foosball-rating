@@ -15,7 +15,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  showAllUsers(@Query('include') include: string, @Query('sort') sort: string) {
+  showAll(@Query('include') include: string, @Query('sort') sort: string) {
     const relations = include && include.split(',');
     const order = parseSort(sort);
 
@@ -28,7 +28,7 @@ export class UserController {
   }
 
   @Get(':id')
-  readUser(@Param('id') id: string, @Query('include') include: string) {
+  read(@Param('id') id: string, @Query('include') include: string) {
     const relations = include && include.split(',');
 
     return this.userService.read(id, { relations });
@@ -47,9 +47,16 @@ export class UserController {
     return this.userService.register(data);
   }
 
+  // TODO: Comfortable different partial for user based on roles
   @Patch(':id')
   @RequireMinimalRole(Role.MODERATOR)
-  patchUser(@Param('id') id: string, @Body() data: Partial<UserEntity>, @User() moderator: UserEntity) {
-    return this.userService.patchUser(id, data, moderator);
+  patch(@Param('id') id: string, @Body() data: Partial<UserEntity>, @User() moderator: UserEntity) {
+    return this.userService.update(id, data, moderator);
+  }
+
+  @Post(':id/confirm')
+  @RequireMinimalRole(Role.MODERATOR)
+  confirm(@Param('id') id: string, @User() moderator: UserEntity) {
+    return this.userService.confirm(id, moderator);
   }
 }

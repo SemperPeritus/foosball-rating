@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
 
-import { UserEntity } from './user.entity';
+import { Role, UserEntity } from './user.entity';
 import { PlayerEntity } from '../player/player.entity';
 import { UserLoginDto } from './userLogin.dto';
 import { UserRegisterDto } from './userRegister.dto';
@@ -71,7 +71,7 @@ export class UserService {
     return newUser.toResponseObject(true);
   }
 
-  async patchUser(id: string, data: Partial<UserEntity>, moderator: UserEntity) {
+  async update(id: string, data: Partial<UserEntity>, moderator: UserEntity) {
     const user = await this.userRepository.findOne(id);
 
     if (user.role >= moderator.role) {
@@ -86,6 +86,24 @@ export class UserService {
         );
       }
       user.role = data.role;
+    }
+
+    await this.userRepository.update(id, user);
+
+    return await this.userRepository.findOne(id);
+  }
+
+  async confirm(id: string, moderator: UserEntity) {
+    const user = await this.userRepository.findOne(id);
+
+    if (user.role !== Role.NON_VERIFIED_USER && user.role !== Role.USER) {
+      throw new HttpException('This user is not unverified user.', HttpStatus.BAD_REQUEST);
+    }
+
+    user.role = Role.USER;
+    if (!user.player && user.playerWanted) {
+      user.player = user.playerWanted;
+      user.playerWanted = null;
     }
 
     await this.userRepository.update(id, user);
