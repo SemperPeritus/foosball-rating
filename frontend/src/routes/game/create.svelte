@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+  import Select from 'svelte-select';
 
   import Game from '../../components/Game.svelte';
 
@@ -18,6 +19,21 @@
   let isError = false;
   let errorMessage;
 
+  const form = {
+    player1OfTeam1: null,
+    player2OfTeam1: null,
+    player1OfTeam2: null,
+    player2OfTeam2: null,
+    winner: null,
+  };
+  $: playersMap = players
+    ? players.map(player => ({
+        value: player.id,
+        label: `${player.firstName} ${player.secondName}`,
+      }))
+    : [];
+  const winners = [{ value: 1, label: 'Первая команда' }, { value: 2, label: 'Вторая команда' }];
+
   const fetchPlayers = async () => {
     players = await api.get('player');
   };
@@ -25,17 +41,18 @@
   onMount(fetchPlayers);
 
   const getFormData = () => {
-    const firstTeam = [
-      parseInt(document.getElementById('player1OfTeam1').value, 10),
-      parseInt(document.getElementById('player2OfTeam1').value, 10),
-    ];
-    const secondTeam = [
-      parseInt(document.getElementById('player1OfTeam2').value, 10),
-      parseInt(document.getElementById('player2OfTeam2').value, 10),
-    ];
-    const winner = parseInt(document.getElementById('winner').value, 10);
+    const formData = {};
+    Object.keys(form).forEach(key => {
+      formData[key] = form[key] ? form[key].value : null;
+    });
 
-    return { firstTeam, secondTeam, winner };
+    const preparedForm = {
+      firstTeam: [formData.player1OfTeam1, formData.player2OfTeam1],
+      secondTeam: [formData.player1OfTeam2, formData.player2OfTeam2],
+      winner: formData.winner,
+    };
+
+    return preparedForm;
   };
 
   const createGame = async () => {
@@ -59,16 +76,16 @@
 
 <style>
   .form {
-    display: table;
-    border-spacing: 5px;
+    display: grid;
+    grid-gap: 10px;
+    align-items: center;
+    grid-template-columns: max-content max-content max-content;
   }
 
-  .form__field {
-    display: table-row;
-  }
-
-  .form__field__element {
+  .form__element {
     display: table-cell;
+    width: 200px;
+    align-self: center;
   }
 
   .error {
@@ -84,53 +101,28 @@
 
 <div>
   <div class="form">
-    <div class="form__field">
-      <span class="form__field__element">Первая команда:</span>
+    <span class="form__element">Первая команда:</span>
 
-      <select class="form__field__element" id="player1OfTeam1">
-        {#if players}
-          {#each players as { id, firstName, secondName }}
-            <option value={id}>{`${firstName} ${secondName}`}</option>
-          {/each}
-        {/if}
-      </select>
-
-      <select class="form__field__element" id="player2OfTeam1">
-        {#if players}
-          {#each players as { id, firstName, secondName }}
-            <option value={id}>{`${firstName} ${secondName}`}</option>
-          {/each}
-        {/if}
-      </select>
+    <div class="form__element">
+      <Select items={playersMap} bind:selectedValue={form.player1OfTeam1} />
+    </div>
+    <div class="form__element">
+      <Select items={playersMap} bind:selectedValue={form.player2OfTeam1} />
     </div>
 
-    <div class="form__field">
-      <span class="form__field__element">Вторая команда:</span>
+    <span class="form__element">Вторая команда:</span>
 
-      <select class="form__field__element" id="player1OfTeam2">
-        {#if players}
-          {#each players as { id, firstName, secondName }}
-            <option value={id}>{`${firstName} ${secondName}`}</option>
-          {/each}
-        {/if}
-      </select>
-
-      <select class="form__field__element" id="player2OfTeam2">
-        {#if players}
-          {#each players as { id, firstName, secondName }}
-            <option value={id}>{`${firstName} ${secondName}`}</option>
-          {/each}
-        {/if}
-      </select>
+    <div class="form__element">
+      <Select items={playersMap} bind:selectedValue={form.player1OfTeam2} />
+    </div>
+    <div class="form__element">
+      <Select items={playersMap} bind:selectedValue={form.player2OfTeam2} />
     </div>
 
-    <div class="form__field">
-      <span class="form__field__element">Победители:</span>
+    <span class="form__element">Победители:</span>
 
-      <select class="form__field__element" id="winner">
-        <option value={1}>Первая команда</option>
-        <option value={2}>Вторая команда</option>
-      </select>
+    <div class="form__element">
+      <Select items={winners} bind:selectedValue={form.winner} />
     </div>
   </div>
 
