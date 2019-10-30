@@ -43,6 +43,12 @@
     user = await api.patch(`user/${userId}`, { role }, getCookie('token'));
     isLoading = false;
   };
+
+  const confirm = async () => {
+    isLoading = true;
+    user = await api.post(`user/${userId}/confirm`, null, getCookie('token'));
+    isLoading = false;
+  };
 </script>
 
 <style>
@@ -63,6 +69,9 @@
 
 <div>
   {#if user && !isLoading}
+    <div class="edit-block">
+      <button on:click={confirm}>Подтвердить</button>
+    </div>
     <div class="edit-block">
       <label class="form__field__element" for="role">
         <h3>Роль:</h3>

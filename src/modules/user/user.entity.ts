@@ -34,6 +34,9 @@ export class UserEntity {
   @Column('text')
   password: string;
 
+  @Column({ type: 'enum', enum: Role, default: Role.NON_VERIFIED_USER })
+  role: Role;
+
   @OneToOne(type => PlayerEntity, player => player.user, { nullable: true, eager: true })
   @JoinColumn()
   player: PlayerEntity;
@@ -41,17 +44,20 @@ export class UserEntity {
   @ManyToOne(type => PlayerEntity, player => player.usersWants, { nullable: true, eager: true })
   playerWanted: PlayerEntity;
 
-  @Column({ type: 'enum', enum: Role, default: Role.NON_VERIFIED_USER })
-  role: Role;
+  @ManyToOne(type => UserEntity, user => user.approvedUsers)
+  approvedBy: UserEntity;
+
+  @OneToMany(type => UserEntity, user => user.approvedBy)
+  approvedUsers: UserEntity[];
+
+  @CreateDateColumn()
+  created: Date;
 
   @OneToMany(type => GameEntity, game => game.createdBy)
   games: GameEntity[];
 
   @OneToMany(type => PlayerEntity, player => player.createdBy)
   createdPlayers: PlayerEntity[];
-
-  @CreateDateColumn()
-  created: Date;
 
   @BeforeInsert()
   async hashPassword() {
