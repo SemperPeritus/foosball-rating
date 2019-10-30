@@ -1,9 +1,12 @@
 <script context="module">
   import { getPlayer } from '../../helpers/apiHelper';
+  import { isClient } from '../../helpers/isClient';
 
   export async function preload({ params }) {
-    getPlayer(params.id);
-    return { params };
+    if (isClient()) {
+      getPlayer(params.id);
+      return { params };
+    }
   }
 </script>
 
@@ -15,8 +18,17 @@
   import { api } from '../../helpers/api';
   import { player } from '../../helpers/store';
   import { getCookie } from '../../helpers/cookie';
+  import { isPromise } from '../../helpers/isPromise';
 
   export let params;
+
+  let playerTitle = '';
+  player.subscribe(value => {
+    if (!isPromise(value)) {
+      return;
+    }
+    value.then(response => (playerTitle = response.firstName ? ` ${response.firstName} ${response.secondName}` : ''));
+  });
 
   onMount(() => getPlayer(params.id));
 
@@ -37,9 +49,7 @@
 </style>
 
 <svelte:head>
-  <title>
-    Игрок{$player && $player !== null ? ` ${$player.firstName} ${$player.secondName}` : ''}
-  </title>
+  <title>Игрок{playerTitle}</title>
 </svelte:head>
 
 {#await $player}
