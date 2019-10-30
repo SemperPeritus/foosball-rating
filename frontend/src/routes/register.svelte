@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+  import Select from 'svelte-select';
 
   import { api } from '../helpers/api';
   import { store } from '../helpers/store';
@@ -15,8 +16,22 @@
   let isError = false;
   let errorMessage;
 
-  // Form values
-  let playerWanted;
+  const form = {
+    playerWanted: null,
+  };
+  $: playersMap = [
+    {
+      value: null,
+      label: 'Новый игрок',
+    },
+    ...(players
+      ? players.map(player => ({
+          value: player.id,
+          label: `${player.firstName} ${player.secondName}`,
+        }))
+      : []),
+  ];
+  $: isExistingPlayer = form.playerWanted ? form.playerWanted.value !== null : true;
 
   const fetchPlayers = async () => {
     players = await api.get('player');
@@ -41,17 +56,17 @@
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    const playerWanted = Number.parseInt(document.getElementById('playerWanted').value, 10);
+    const playerWanted = form.playerWanted && form.playerWanted.value;
 
     const firstName = document.getElementById('firstName').value;
     const secondName = document.getElementById('secondName').value;
 
     let data = { username, password };
 
-    if (isNaN(playerWanted)) {
-      data = { ...data, firstName, secondName };
-    } else {
+    if (isExistingPlayer) {
       data = { ...data, playerWanted };
+    } else {
+      data = { ...data, firstName, secondName };
     }
 
     return data;
@@ -112,16 +127,15 @@
   }
 
   .player-linking__form {
-    display: table;
-    border-spacing: 5px;
+    display: grid;
+    grid-template-columns: max-content max-content;
+    grid-gap: 10px;
+    align-items: center;
   }
 
-  .player-linking__form__field {
-    display: table-row;
-  }
-
-  .player-linking__form__field__element {
+  .player-linking__form__element {
     display: table-cell;
+    width: 200px;
   }
 </style>
 
@@ -155,41 +169,28 @@
   <div class="player-linking">
     <span class="player-linking__hint">Выберите или создайте нового игрока</span>
     <div class="player-linking__form">
-      <div class="player-linking__form__field">
-        <label class="player-linking__form__field__element" for="playerWanted">Существующий игрок:</label>
-        <select class="player-linking__form__field__element" id="playerWanted" bind:value={playerWanted}>
-          <option value="none">Новый игрок</option>
-          {#if players}
-            {#each players as { id, firstName, secondName }}
-              <option value={id}>{`${firstName} ${secondName}`}</option>
-            {/each}
-          {/if}
-        </select>
+      <label class="player-linking__form__element" for="playerWanted">Существующий игрок:</label>
+      <div class="player-linking__form__element">
+        <Select items={playersMap} bind:selectedValue={form.playerWanted} />
       </div>
-    </div>
-    <div class="player-linking__form">
-      <div class="player-linking__form__field">
-        <label class="player-linking__form__field__element" for="firstName">Имя:</label>
-        <input
-          class="player-linking__form__field__element"
-          type="text"
-          id="firstName"
-          name="firstName"
-          required
-          disabled={playerWanted !== "none"}
-          maxlength="32" />
-      </div>
-      <div class="player-linking__form__field">
-        <label class="player-linking__form__field__element" for="secondName">Фамилия:</label>
-        <input
-          class="player-linking__form__field__element"
-          type="text"
-          id="secondName"
-          name="secondName"
-          required
-          disabled={playerWanted !== "none"}
-          maxlength="32" />
-      </div>
+      <label class="player-linking__form__element" for="firstName">Имя:</label>
+      <input
+        class="player-linking__form__element"
+        type="text"
+        id="firstName"
+        name="firstName"
+        required
+        disabled={isExistingPlayer}
+        maxlength="32" />
+      <label class="player-linking__form__element" for="secondName">Фамилия:</label>
+      <input
+        class="player-linking__form__element"
+        type="text"
+        id="secondName"
+        name="secondName"
+        required
+        disabled={isExistingPlayer}
+        maxlength="32" />
     </div>
   </div>
 

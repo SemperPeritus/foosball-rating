@@ -1603,6 +1603,11 @@ supports-color@^6.1.0:
   dependencies:
     has-flag "^3.0.0"
 
+svelte-select@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/svelte-select/-/svelte-select-3.1.1.tgz#d316ea986a1ab789286e5545bb35b90921809512"
+  integrity sha512-2WYgAAE55lNjT77oLU2cIB7XZkQIb01Rgvmrh2Y0Y3hr5CDgXuuzW4A3gyPM4aU4ft0oDEd0WwB72Sb+ogjleA==
+
 svelte@^3.0.0:
   version "3.12.1"
   resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.12.1.tgz#ddfacd43272ac3255907c682b74ee7d3d8b06b0c"
