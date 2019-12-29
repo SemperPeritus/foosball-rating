@@ -3,10 +3,10 @@ import { IsEnum, IsNumber } from 'class-validator';
 import { Team } from './game.entity';
 
 export class GameDto {
-  @IsNumber(null, { each: true })
+  @IsNumber(undefined, { each: true })
   firstTeam: number[];
 
-  @IsNumber(null, { each: true })
+  @IsNumber(undefined, { each: true })
   secondTeam: number[];
 
   @IsEnum(Team)
