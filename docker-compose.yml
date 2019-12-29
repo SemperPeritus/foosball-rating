@@ -13,15 +13,19 @@ services:
 
   foosball-rating-backend:
     container_name: 'foosball-rating-backend-${CONTAINER_SUFFIX}'
-    build: .
+    image: 192.168.31.32:50000/foosball-rating/backend:${BUILD}
     restart: always
     env_file: deploy/env/backend.env
+    volumes:
+      - ./.env:/app/.env
+      - ./ormconfig.json:/app/ormconfig.json
+      - ./deploy/env/secrets.env:/app/deploy/env/secrets.env
     depends_on:
       - 'PostgreSQL'
 
   foosball-rating-frontend:
     container_name: 'foosball-rating-frontend-${CONTAINER_SUFFIX}'
-    build: frontend
+    image: 192.168.31.32:50000/foosball-rating/frontend:${BUILD}
     restart: always
     env_file: deploy/env/frontend.env
 
