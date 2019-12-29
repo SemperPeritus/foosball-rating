@@ -7,6 +7,3 @@ test -f deploy/env/frontend.env || cat deploy/env/frontend.env.stage > deploy/en
 test -f ormconfig.json || cat deploy/static-configs/ormconfig.stage.json > ormconfig.json
 
 cat frontend/src/constants/config.js.stage > frontend/src/constants/config.js
-
-#docker-compose build foosball-rating-backend
-#docker-compose build foosball-rating-frontend
