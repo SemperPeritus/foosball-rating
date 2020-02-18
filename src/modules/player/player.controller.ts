@@ -2,11 +2,11 @@ import { Body, Controller, Get, Param, Patch, Post, Query, UsePipes } from '@nes
 
 import { PlayerService } from './player.service';
 import { PlayerDto } from './player.dto';
-import { ValidationPipe } from '../../shared/processing/validation.pipe';
-import { parseSort } from '../../shared/helpers/parseSort';
-import { RequireMinimalRole } from '../../shared/processing/roles.decorator';
+import { ValidationPipe } from '../../processing/validation.pipe';
+import { parseSort } from '../../helpers/parseSort';
+import { RequireMinimalRole } from '../../processing/roles.decorator';
 import { Role, UserEntity } from '../user/user.entity';
-import { User } from '../../shared/processing/user.decorator';
+import { User } from '../../processing/user.decorator';
 
 @Controller('player')
 export class PlayerController {

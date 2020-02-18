@@ -2,7 +2,7 @@ import { createParamDecorator } from '@nestjs/common';
 import { getRepository } from 'typeorm';
 import * as jwt from 'jsonwebtoken';
 
-import { UserEntity } from '../../modules/user/user.entity';
+import { UserEntity } from '../modules/user/user.entity';
 
 const getUserId = async (token: string): Promise<number> => {
   try {

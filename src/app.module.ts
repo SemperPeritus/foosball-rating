@@ -5,11 +5,11 @@ import { TypeOrmCoreModule } from '@nestjs/typeorm/dist/typeorm-core.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PlayerModule } from './modules/player/player.module';
-import { HttpErrorFilter } from './shared/processing/httpError.filter';
-import { LoggingInterceptor } from './shared/processing/logging.interceptor';
+import { HttpErrorFilter } from './processing/httpError.filter';
+import { LoggingInterceptor } from './processing/logging.interceptor';
 import { GameModule } from './modules/game/game.module';
 import { UserModule } from './modules/user/user.module';
-import { AuthGuard } from './shared/processing/auth.guard';
+import { AuthGuard } from './processing/auth.guard';
 
 @Module({
   imports: [TypeOrmCoreModule.forRoot(), PlayerModule, GameModule, UserModule],

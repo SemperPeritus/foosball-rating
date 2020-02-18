@@ -6,7 +6,7 @@ import { Role, UserEntity } from './user.entity';
 import { PlayerEntity } from '../player/player.entity';
 import { UserLoginDto } from './userLogin.dto';
 import { UserRegisterDto } from './userRegister.dto';
-import { merge } from '../../shared/helpers/merge';
+import { merge } from '../../helpers/merge';
 
 @Injectable()
 export class UserService {

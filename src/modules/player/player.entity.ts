@@ -11,7 +11,7 @@ import {
 
 import { GameEntity } from '../game/game.entity';
 import { UserEntity } from '../user/user.entity';
-import { Rating } from '../../shared/constants/rating';
+import { Rating } from '../../constants/rating';
 
 @Entity('player')
 export class PlayerEntity {
@@ -27,24 +27,42 @@ export class PlayerEntity {
   @Column('double precision', { default: Rating.PLAYER_DEFAULT_RATING })
   rating: number;
 
-  @OneToOne(type => UserEntity, user => user.player)
+  @OneToOne(
+    type => UserEntity,
+    user => user.player,
+  )
   user: UserEntity;
 
-  @OneToMany(type => UserEntity, user => user.playerWanted)
+  @OneToMany(
+    type => UserEntity,
+    user => user.playerWanted,
+  )
   usersWants: UserEntity;
 
-  @ManyToMany(type => GameEntity, game => game.players)
+  @ManyToMany(
+    type => GameEntity,
+    game => game.players,
+  )
   games: GameEntity[];
 
-  @ManyToMany(type => GameEntity, game => game.firstTeam)
+  @ManyToMany(
+    type => GameEntity,
+    game => game.firstTeam,
+  )
   firstTeam: GameEntity[];
 
-  @ManyToMany(type => GameEntity, game => game.secondTeam)
+  @ManyToMany(
+    type => GameEntity,
+    game => game.secondTeam,
+  )
   secondTeam: GameEntity[];
 
   @CreateDateColumn()
   created: Date;
 
-  @ManyToOne(type => UserEntity, user => user.createdPlayers)
+  @ManyToOne(
+    type => UserEntity,
+    user => user.createdPlayers,
+  )
   createdBy: UserEntity;
 }

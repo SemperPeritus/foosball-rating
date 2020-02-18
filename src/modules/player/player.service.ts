@@ -5,12 +5,12 @@ import { FindManyOptions, FindOneOptions, MoreThan, OrderByCondition, Repository
 import { PlayerEntity } from './player.entity';
 import { GameEntity } from '../game/game.entity';
 import { PlayerDto } from './player.dto';
-import { Entities } from '../../shared/constants/entities';
-import { Rating } from '../../shared/constants/rating';
-import { getRatingForPlayers } from '../../shared/helpers/ratingHelper';
-import { merge } from '../../shared/helpers/merge';
+import { Entities } from '../../constants/entities';
+import { Rating } from '../../constants/rating';
+import { getRatingForPlayers } from '../../helpers/ratingHelper';
+import { merge } from '../../helpers/merge';
 import { UserEntity } from '../user/user.entity';
-import { fillUpRelations } from '../../shared/helpers/fillUpRelations';
+import { fillUpRelations } from '../../helpers/fillUpRelations';
 
 @Injectable()
 export class PlayerService {

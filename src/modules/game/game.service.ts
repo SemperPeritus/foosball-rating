@@ -6,8 +6,8 @@ import { GameEntity } from './game.entity';
 import { GameDto } from './game.dto';
 import { PlayerEntity } from '../player/player.entity';
 import { Role, UserEntity } from '../user/user.entity';
-import { merge } from '../../shared/helpers/merge';
-import { Entities } from '../../shared/constants/entities';
+import { merge } from '../../helpers/merge';
+import { Entities } from '../../constants/entities';
 
 @Injectable()
 export class GameService {
