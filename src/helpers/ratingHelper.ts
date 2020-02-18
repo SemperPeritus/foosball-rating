@@ -1,5 +1,5 @@
-import { PlayerEntity } from '../../modules/player/player.entity';
-import { GameEntity, Team } from '../../modules/game/game.entity';
+import { PlayerEntity } from '../modules/player/player.entity';
+import { GameEntity, Team } from '../modules/game/game.entity';
 import { Rating } from '../constants/rating';
 
 export const getRatingForPlayers = (players: PlayerEntity[], games: GameEntity[]) => {
@@ -89,8 +89,14 @@ const getTeamRatingDiff = (players: PlayerEntity[], game: GameEntity) => {
 };
 
 const getTeamRating = (team: PlayerEntity[]) => {
-  const strongestPlayerRating = Math.max.apply(Math, team.map(player => player.rating));
-  const weakestPlayerRating = Math.min.apply(Math, team.map(player => player.rating));
+  const strongestPlayerRating = Math.max.apply(
+    Math,
+    team.map(player => player.rating),
+  );
+  const weakestPlayerRating = Math.min.apply(
+    Math,
+    team.map(player => player.rating),
+  );
 
   return (2 * strongestPlayerRating + weakestPlayerRating) / 3;
 };

@@ -2,7 +2,7 @@ import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from
 import { Reflector } from '@nestjs/core';
 import * as jwt from 'jsonwebtoken';
 import { createQueryBuilder } from 'typeorm';
-import { UserEntity } from '../../modules/user/user.entity';
+import { UserEntity } from '../modules/user/user.entity';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

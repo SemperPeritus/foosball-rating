@@ -3,12 +3,12 @@ import { Body, Controller, Get, Param, Patch, Post, Query, UsePipes } from '@nes
 import { UserService } from './user.service';
 import { UserLoginDto } from './userLogin.dto';
 import { UserRegisterDto } from './userRegister.dto';
-import { ValidationPipe } from '../../shared/processing/validation.pipe';
-import { parseSort } from '../../shared/helpers/parseSort';
+import { ValidationPipe } from '../../processing/validation.pipe';
+import { parseSort } from '../../helpers/parseSort';
 import { Role, UserEntity } from './user.entity';
-import { User } from '../../shared/processing/user.decorator';
+import { User } from '../../processing/user.decorator';
 import { UserValidationPipe } from './userValidation.pipe';
-import { RequireMinimalRole } from '../../shared/processing/roles.decorator';
+import { RequireMinimalRole } from '../../processing/roles.decorator';
 
 @Controller('user')
 export class UserController {

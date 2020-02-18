@@ -2,12 +2,12 @@ import { Body, Controller, Delete, Get, Param, Post, Query, UsePipes } from '@ne
 
 import { GameService } from './game.service';
 import { GameDto } from './game.dto';
-import { ValidationPipe } from '../../shared/processing/validation.pipe';
+import { ValidationPipe } from '../../processing/validation.pipe';
 import { GameValidationPipe } from './gameValidation.pipe';
-import { RequireMinimalRole } from '../../shared/processing/roles.decorator';
+import { RequireMinimalRole } from '../../processing/roles.decorator';
 import { Role, UserEntity } from '../user/user.entity';
-import { User } from '../../shared/processing/user.decorator';
-import { parseSort } from '../../shared/helpers/parseSort';
+import { User } from '../../processing/user.decorator';
+import { parseSort } from '../../helpers/parseSort';
 
 @Controller('game')
 export class GameController {

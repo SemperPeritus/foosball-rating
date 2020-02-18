@@ -1,5 +1,5 @@
 import { ArgumentMetadata, HttpException, HttpStatus, Injectable, PipeTransform } from '@nestjs/common';
-import { checkUnique } from '../../shared/helpers/checkUnique';
+import { checkUnique } from '../../helpers/checkUnique';
 
 @Injectable()
 export class GameValidationPipe implements PipeTransform<any> {

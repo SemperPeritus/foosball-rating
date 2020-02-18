@@ -16,7 +16,7 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Service works!"', () => {
+    test('should return "Service works!"', () => {
       expect(appController.getStatus()).toBe('Service works!');
     });
   });
